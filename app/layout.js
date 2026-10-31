@@ -9,6 +9,7 @@ export const metadata = {
 
 const nav = [
   { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
@@ -30,6 +31,10 @@ export default function RootLayout({ children }) {
                   {item.label}
                 </Link>
               ))}
+              <Link href="/login">Login</Link>
+              <Link href="/register" className="nav-cta">
+                Get Started
+              </Link>
             </nav>
           </div>
         </header>
