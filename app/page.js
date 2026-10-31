@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeroSceneLazy from "./components/HeroSceneLazy";
 import { services, projects } from "../lib/data";
 
 export default function Home() {
@@ -6,6 +7,9 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="hero">
+        <div className="hero-scene" aria-hidden="true">
+          <HeroSceneLazy />
+        </div>
         <div className="container">
           <p className="eyebrow">Welcome to PeopTrust</p>
           <h1>

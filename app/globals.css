@@ -152,9 +152,20 @@ h2 {
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 55%, var(--green-dark) 130%);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0c2d48 0%, #081f33 100%);
   color: #eaf2f7;
   padding: 96px 0 84px;
+}
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
