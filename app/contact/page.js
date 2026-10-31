@@ -5,9 +5,9 @@ export const metadata = {
 };
 
 const contacts = [
-  { label: "Phone", value: "+234 704 027 0608" },
-  { label: "Email", value: "info@peoptrust.com" },
-  { label: "Location", value: "Lagos, Nigeria" },
+  { label: "Visit", value: "Lagos, Nigeria" },
+  { label: "Email", value: "info@peoptrust.com", href: "mailto:info@peoptrust.com" },
+  { label: "Call", value: "+234 704 027 0608", href: "tel:+2347040270608" },
 ];
 
 export default function ContactPage() {
@@ -27,9 +27,15 @@ export default function ContactPage() {
         <div className="container">
           <div className="grid grid-3">
             {contacts.map((contact) => (
-              <article className="card" key={contact.label}>
+              <article className="card info-card" key={contact.label}>
                 <h3>{contact.label}</h3>
-                <p className="contact-value">{contact.value}</p>
+                <p className="contact-value">
+                  {contact.href ? (
+                    <a href={contact.href}>{contact.value}</a>
+                  ) : (
+                    contact.value
+                  )}
+                </p>
               </article>
             ))}
           </div>
