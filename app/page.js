@@ -1,11 +1,37 @@
 import Link from "next/link";
+import HeroSceneLazy from "./components/HeroSceneLazy";
 import { services, projects } from "../lib/data";
+
+const bandStats = [
+  { value: "100+", label: "Professional & project connections" },
+  { value: "6", label: "Core service areas" },
+  { value: "2021", label: "Founded" },
+  { value: "Nigeria-wide", label: "Coverage" },
+];
+
+const steps = [
+  {
+    title: "Create your profile / Post a job",
+    text: "Professionals create a profile showcasing their skills; employers post the roles and projects they need filled.",
+  },
+  {
+    title: "Get matched",
+    text: "We connect employers with verified professionals whose skills fit the work at hand.",
+  },
+  {
+    title: "Work & deliver",
+    text: "Teams get to work with clear requirements, safe practice and dependable delivery.",
+  },
+];
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section className="hero">
+        <div className="hero-scene" aria-hidden="true">
+          <HeroSceneLazy />
+        </div>
         <div className="container">
           <p className="eyebrow">Welcome to PeopTrust</p>
           <h1>
@@ -37,6 +63,15 @@ export default function Home() {
           <p className="marketplace-stat">
             <strong>100+</strong> professional &amp; project connections
           </p>
+
+          <div className="stats stats-band">
+            {bandStats.map((stat) => (
+              <div className="stat" key={stat.label}>
+                <p className="stat-value">{stat.value}</p>
+                <p className="stat-label">{stat.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -52,7 +87,7 @@ export default function Home() {
           </p>
           <div className="grid grid-3">
             {services.map((service) => (
-              <article className="card" key={service.title}>
+              <article className="card service-card" key={service.title}>
                 <span className="icon">{service.icon}</span>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
@@ -65,27 +100,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About teaser + stats */}
+      {/* How it works */}
       <section className="section section-soft">
         <div className="container">
-          <p className="eyebrow">About Us</p>
-          <h2>Who we are</h2>
+          <p className="eyebrow">How It Works</p>
+          <h2>From profile to project in three steps</h2>
           <p className="lead">
-            PeopTrust Engineering Group is a forward-thinking engineering
-            services and talent marketplace built around people, practical
-            expertise and dependable delivery. We help organisations find the
-            right professionals and help skilled workers access credible
-            opportunities.
+            Whether you are looking for work or looking to hire, getting
+            started is straightforward.
           </p>
-          <div className="points">
-            <span>◉ Professional Team</span>
-            <span>◉ Quality &amp; Safety</span>
-            <span>◉ Innovation</span>
-            <span>◉ Customer Focus</span>
+          <div className="steps">
+            {steps.map((step, index) => (
+              <article className="step" key={step.title}>
+                <span className="step-num">{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </article>
+            ))}
           </div>
-          <Link className="text-link" href="/about">
-            Learn More About Us →
-          </Link>
+        </div>
+      </section>
+
+      {/* About teaser + stats */}
+      <section className="section">
+        <div className="container">
+          <div className="split">
+            <div>
+              <p className="eyebrow">About Us</p>
+              <h2>Who we are</h2>
+              <p className="lead">
+                PeopTrust Engineering Group is a forward-thinking engineering
+                services and talent marketplace built around people, practical
+                expertise and dependable delivery. We help organisations find
+                the right professionals and help skilled workers access
+                credible opportunities.
+              </p>
+              <div className="points">
+                <span>◉ Professional Team</span>
+                <span>◉ Quality &amp; Safety</span>
+                <span>◉ Innovation</span>
+                <span>◉ Customer Focus</span>
+              </div>
+              <Link className="text-link" href="/about">
+                Learn More About Us →
+              </Link>
+            </div>
+            <img
+              src="/about/team.jpg"
+              alt="PeopTrust engineering team at work"
+              className="split-img"
+            />
+          </div>
 
           <div className="stats">
             <div className="stat">
@@ -109,7 +174,7 @@ export default function Home() {
       </section>
 
       {/* Featured projects */}
-      <section className="section">
+      <section className="section section-soft">
         <div className="container">
           <p className="eyebrow">Featured Projects</p>
           <h2>Our recent work</h2>
@@ -120,18 +185,47 @@ export default function Home() {
           <div className="grid grid-2">
             {projects.map((project) => (
               <article className="card project-card" key={project.title}>
-                <p className="location">{project.location}</p>
-                <h3>{project.title}</h3>
-                <p>{project.text}</p>
-                <Link className="card-link" href="/projects">
-                  View project →
-                </Link>
+                <div className="project-img-wrap">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="project-img"
+                  />
+                  <span className="location-chip">{project.location}</span>
+                </div>
+                <div className="project-card-body">
+                  <h3>{project.title}</h3>
+                  <p>{project.text}</p>
+                  <Link className="card-link" href="/projects">
+                    View project →
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
           <Link className="text-link" href="/projects">
             View All Projects →
           </Link>
+        </div>
+      </section>
+
+      {/* CTA band */}
+      <section className="section section-cta">
+        <div className="container">
+          <p className="eyebrow">Join PeopTrust</p>
+          <h2>Ready to build what&apos;s next?</h2>
+          <p className="lead">
+            Professionals find credible opportunities. Employers find verified
+            skills. Start today.
+          </p>
+          <div className="cta-actions">
+            <Link className="btn btn-white" href="/register">
+              Join as a Professional
+            </Link>
+            <Link className="btn btn-outline-white" href="/register">
+              Hire Talent
+            </Link>
+          </div>
         </div>
       </section>
     </>

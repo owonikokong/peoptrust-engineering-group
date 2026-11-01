@@ -1,1 +1,1 @@
-{"dependencies":{"@supabase/supabase-js":"^2.118.0","next":"^15.5.4","react":"^19.1.0","react-dom":"^19.1.0"},"name":"peoptrust-engineering-group","private":true,"scripts":{"build":"next build","dev":"next dev","start":"next start"},"version":"1.0.0"}
+{"dependencies":{"@supabase/supabase-js":"^2.118.0","next":"^15.5.4","react":"^19.1.0","react-dom":"^19.1.0","three":"^0.187.0"},"name":"peoptrust-engineering-group","private":true,"scripts":{"build":"next build","dev":"next dev","start":"next start"},"version":"1.0.0"}

@@ -6,16 +6,20 @@ export const metadata = {
 
 const values = [
   {
-    title: "People first",
-    text: "We value the professionals who make projects happen.",
+    title: "People First",
+    text: "The professionals behind every project come first.",
   },
   {
-    title: "Quality & safety",
-    text: "We promote disciplined engineering practice and responsible delivery.",
+    title: "Verified Skills",
+    text: "Capability is checked, so employers can hire with confidence.",
   },
   {
-    title: "Sustainable solutions",
-    text: "We support efficient, resilient and environmentally conscious work.",
+    title: "Safety Always",
+    text: "Safe practice guides every site, task and delivery.",
+  },
+  {
+    title: "Dependable Delivery",
+    text: "Clear commitments, met with disciplined follow-through.",
   },
 ];
 
@@ -36,6 +40,16 @@ export default function AboutPage() {
 
       <section className="section">
         <div className="container">
+          <img
+            src="/about/team.jpg"
+            alt="PeopTrust engineering team at work"
+            className="about-hero-img"
+          />
+        </div>
+      </section>
+
+      <section className="section section-soft">
+        <div className="container">
           <h2>What we do</h2>
           <p className="lead">
             Our platform supports engineering recruitment, project teams,
@@ -44,9 +58,10 @@ export default function AboutPage() {
             requirements, safety and dependable delivery.
           </p>
 
-          <div className="grid grid-3">
+          <h2 style={{ marginTop: "48px" }}>What we value</h2>
+          <div className="grid grid-4">
             {values.map((value) => (
-              <article className="card" key={value.title}>
+              <article className="card service-card" key={value.title}>
                 <h3>{value.title}</h3>
                 <p>{value.text}</p>
               </article>

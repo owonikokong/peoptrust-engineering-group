@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { projects } from "../../lib/data";
 
 export const metadata = {
@@ -25,9 +26,21 @@ export default function ProjectsPage() {
           <div className="grid grid-2">
             {projects.map((project) => (
               <article className="card project-card" key={project.title}>
-                <p className="location">{project.location}</p>
-                <h3>{project.title}</h3>
-                <p>{project.text}</p>
+                <div className="project-img-wrap">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="project-img project-img-tall"
+                  />
+                  <span className="location-chip">{project.location}</span>
+                </div>
+                <div className="project-card-body">
+                  <h3>{project.title}</h3>
+                  <p>{project.text}</p>
+                  <Link className="card-link" href="/contact">
+                    Discuss a similar project →
+                  </Link>
+                </div>
               </article>
             ))}
           </div>

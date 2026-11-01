@@ -10,7 +10,7 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <section className="page-hero">
+      <section className="page-hero page-hero-gradient">
         <div className="container">
           <p className="eyebrow">Our Services</p>
           <h1>Technical capability when you need it.</h1>
@@ -25,10 +25,15 @@ export default function ServicesPage() {
         <div className="container">
           <div className="grid grid-3">
             {services.map((service) => (
-              <article className="card" key={service.title}>
+              <article className="card service-card" key={service.title}>
                 <span className="icon">{service.icon}</span>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
+                <ul className="check-list">
+                  {service.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
                 <Link className="card-link" href="/contact">
                   Discuss a project →
                 </Link>
