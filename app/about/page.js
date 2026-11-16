@@ -34,9 +34,9 @@ export default function AboutPage() {
           <h1>PeopTrust Engineering Group</h1>
           <p className="lead">
             PeopTrust Engineering Group bridges the gap between employers who
-            need reliable technical capacity and skilled professionals who
-            want credible opportunities. Our focus, for a start, is Nigeria:
-            the employers, the professionals and the projects are Nigerian.
+            need reliable technical capacity and skilled professionals who want
+            credible opportunities. Our focus, for a start, is Nigeria: the
+            employers, the professionals and the projects are Nigerian.
           </p>
           <div className="jobs-video-wrap">
             <video
@@ -71,11 +71,10 @@ export default function AboutPage() {
           <p className="lead">
             Our platform supports engineering recruitment, project teams,
             technical services, equipment sourcing and maintenance
-            relationships. We focus on verified capability, clear
-            requirements, safety and dependable delivery. Employers on
-            PeopTrust come from Construction, Manufacturing, Energy &amp;
-            Power, Oil &amp; Gas, Civil Infrastructure, and Facilities
-            &amp; Maintenance.
+            relationships. We focus on verified capability, clear requirements,
+            safety and dependable delivery. Employers on PeopTrust come from
+            Construction, Manufacturing, Energy &amp; Power, Oil &amp; Gas,
+            Civil Infrastructure, and Facilities &amp; Maintenance.
           </p>
 
           <div className="jobs-video-wrap about-values-video">
@@ -96,7 +95,11 @@ export default function AboutPage() {
           <h2 style={{ marginTop: "48px" }}>What we value</h2>
           <div className="grid grid-4">
             {values.map((value) => (
-              <article data-reveal className="card service-card" key={value.title}>
+              <article
+                data-reveal
+                className="card service-card"
+                key={value.title}
+              >
                 <h3>{value.title}</h3>
                 <p>{value.text}</p>
               </article>
@@ -110,8 +113,8 @@ export default function AboutPage() {
           <p className="eyebrow">Inside the marketplace</p>
           <h2>What a profile shows</h2>
           <p className="lead">
-            Each profile carries the details the other side needs to
-            judge fit: the trade, the skills and the experience.
+            Each profile carries the details the other side needs to judge fit:
+            the trade, the skills and the experience.
           </p>
           <div className="grid grid-2">
             <article data-reveal className="card">
@@ -148,10 +151,10 @@ export default function AboutPage() {
           <p className="eyebrow">Built for Nigeria, for a start</p>
           <h2>Nigerian employers, Nigerian professionals</h2>
           <p className="lead">
-            PeopTrust is a Nigerian marketplace. The industries, the
-            trades and the examples on this site are Nigerian, and the
-            service is built around how work gets done in Nigeria.
-            Featured assignments span four locations:
+            PeopTrust is a Nigerian marketplace. The industries, the trades and
+            the examples on this site are Nigerian, and the service is built
+            around how work gets done in Nigeria. Featured assignments span four
+            locations:
           </p>
           <div className="tag-row" style={{ marginTop: "28px" }}>
             <span className="tag">Lagos</span>

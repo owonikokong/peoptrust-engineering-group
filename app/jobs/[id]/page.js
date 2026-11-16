@@ -42,7 +42,9 @@ export default async function JobDetailPage({ params }) {
           <span className="tag">{job.category}</span>
           <span className="tag tag-soft">{job.location}</span>
           <span className="tag tag-soft">{job.type}</span>
-          <span className="tag tag-soft">Posted {formatDate(job.createdAt)}</span>
+          <span className="tag tag-soft">
+            Posted {formatDate(job.createdAt)}
+          </span>
           {closed ? <span className="tag tag-soft">Closed</span> : null}
         </div>
 
@@ -62,8 +64,8 @@ export default async function JobDetailPage({ params }) {
             <>
               <h3>This role is closed</h3>
               <p>
-                The employer has closed this role, so it is no longer
-                accepting applications.
+                The employer has closed this role, so it is no longer accepting
+                applications.
               </p>
             </>
           ) : (
@@ -81,7 +83,10 @@ export default async function JobDetailPage({ params }) {
                 </>
               )}
               {user && user.role === "employer" && (
-                <p>Employer accounts cannot apply for jobs. Log in with a professional account to apply.</p>
+                <p>
+                  Employer accounts cannot apply for jobs. Log in with a
+                  professional account to apply.
+                </p>
               )}
               {user && user.role === "professional" && !alreadyApplied && (
                 <ApplyForm jobId={job.id} />

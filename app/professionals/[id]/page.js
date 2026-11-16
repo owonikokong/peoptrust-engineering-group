@@ -45,7 +45,7 @@ export default async function ProfessionalPage({ params }) {
     .filter(Boolean);
   const telHref = pro.phone ? `tel:${pro.phone.replace(/[^+0-9]/g, "")}` : null;
   const mailHref = `mailto:${pro.email}?subject=${encodeURIComponent(
-    `PeopTrust enquiry \u2014 ${pro.trade || "your profile"}`
+    `PeopTrust enquiry \u2014 ${pro.trade || "your profile"}`,
   )}`;
 
   return (
@@ -68,14 +68,19 @@ export default async function ProfessionalPage({ params }) {
             </h1>
             <p className="pro-trade">{pro.trade}</p>
             <div className="dash2-chips pro-chips">
-              {pro.location ? <span className="dash2-chip chip-light">{pro.location}</span> : null}
+              {pro.location ? (
+                <span className="dash2-chip chip-light">{pro.location}</span>
+              ) : null}
               {pro.experience !== null && pro.experience !== undefined ? (
                 <span className="dash2-chip chip-light">
-                  {pro.experience} year{pro.experience === 1 ? "" : "s"} experience
+                  {pro.experience} year{pro.experience === 1 ? "" : "s"}{" "}
+                  experience
                 </span>
               ) : null}
               {pro.availability ? (
-                <span className="dash2-chip chip-light">{pro.availability}</span>
+                <span className="dash2-chip chip-light">
+                  {pro.availability}
+                </span>
               ) : null}
               <span className="dash2-chip chip-light">
                 Member since {formatDate(pro.createdAt)}
@@ -85,16 +90,25 @@ export default async function ProfessionalPage({ params }) {
         </div>
 
         {isEmployer ? (
-          <div className="contact-tabs" role="group" aria-label="Contact this professional">
+          <div
+            className="contact-tabs"
+            role="group"
+            aria-label="Contact this professional"
+          >
             {telHref ? (
               <a className="contact-tab" href={telHref}>
                 <span className="contact-tab-label">Call now</span>
                 <span className="contact-tab-value">{pro.phone}</span>
               </a>
             ) : (
-              <span className="contact-tab contact-tab-disabled" aria-disabled="true">
+              <span
+                className="contact-tab contact-tab-disabled"
+                aria-disabled="true"
+              >
                 <span className="contact-tab-label">Call now</span>
-                <span className="contact-tab-value">No phone number provided</span>
+                <span className="contact-tab-value">
+                  No phone number provided
+                </span>
               </span>
             )}
             <a className="contact-tab contact-tab-primary" href={mailHref}>
@@ -171,7 +185,9 @@ export default async function ProfessionalPage({ params }) {
                   >
                     View CV
                   </a>{" "}
-                  <span className="pro-cv-note">Opens the CV link this professional provided.</span>
+                  <span className="pro-cv-note">
+                    Opens the CV link this professional provided.
+                  </span>
                 </p>
               ) : (
                 <p className="pro-empty">No CV provided yet.</p>
@@ -180,7 +196,8 @@ export default async function ProfessionalPage({ params }) {
           </div>
         ) : (
           <p className="pro-note">
-            Full experience history, CV and certifications are visible to employers on PeopTrust.
+            Full experience history, CV and certifications are visible to
+            employers on PeopTrust.
           </p>
         )}
 

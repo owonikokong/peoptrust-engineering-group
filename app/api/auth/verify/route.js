@@ -12,14 +12,14 @@ export async function POST(request) {
   if (!sessionUser) {
     return NextResponse.json(
       { error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN },
-      { status: 401 }
+      { status: 401 },
     );
   }
   const user = await findUserById(sessionUser.id);
   if (!user) {
     return NextResponse.json(
       { error: "Account not found.", code: ERROR_CODES.ACCOUNT_NOT_FOUND },
-      { status: 404 }
+      { status: 404 },
     );
   }
   if (isVerified(user)) {
@@ -32,14 +32,17 @@ export async function POST(request) {
   } catch {
     return NextResponse.json(
       { error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY },
-      { status: 400 }
+      { status: 400 },
     );
   }
   const code = String(body?.code || "").trim();
   if (!/^\d{6}$/.test(code)) {
     return NextResponse.json(
-      { error: "Please enter the 6-digit code from your email.", code: ERROR_CODES.VALIDATION },
-      { status: 400 }
+      {
+        error: "Please enter the 6-digit code from your email.",
+        code: ERROR_CODES.VALIDATION,
+      },
+      { status: 400 },
     );
   }
 
@@ -50,25 +53,38 @@ export async function POST(request) {
   if (!result.ok) {
     if (result.reason === "no-code") {
       return NextResponse.json(
-        { error: "No active code for this account. Please request a new code.", code: ERROR_CODES.NO_ACTIVE_CODE },
-        { status: 400 }
+        {
+          error: "No active code for this account. Please request a new code.",
+          code: ERROR_CODES.NO_ACTIVE_CODE,
+        },
+        { status: 400 },
       );
     }
     if (result.reason === "expired") {
       return NextResponse.json(
-        { error: "This code has expired. Please request a new code.", code: ERROR_CODES.CODE_EXPIRED },
-        { status: 400 }
+        {
+          error: "This code has expired. Please request a new code.",
+          code: ERROR_CODES.CODE_EXPIRED,
+        },
+        { status: 400 },
       );
     }
     if (result.reason === "exhausted") {
       return NextResponse.json(
-        { error: "Too many incorrect attempts. Please request a new code.", code: ERROR_CODES.CODE_EXHAUSTED },
-        { status: 429 }
+        {
+          error: "Too many incorrect attempts. Please request a new code.",
+          code: ERROR_CODES.CODE_EXHAUSTED,
+        },
+        { status: 429 },
       );
     }
     return NextResponse.json(
-      { error: "That code is not correct. Please check your email and try again.", code: ERROR_CODES.CODE_MISMATCH },
-      { status: 400 }
+      {
+        error:
+          "That code is not correct. Please check your email and try again.",
+        code: ERROR_CODES.CODE_MISMATCH,
+      },
+      { status: 400 },
     );
   }
 

@@ -21,9 +21,9 @@ industrial maintenance.
 
 The site includes a working two-sided marketplace:
 
-- **Registration** (`/register`) with a role toggle — *Skilled Professionals*
+- **Registration** (`/register`) with a role toggle — _Skilled Professionals_
   (name, email, password, phone, trade, years of experience, location) and
-  *Employers* (company name, contact person, work email, password, phone,
+  _Employers_ (company name, contact person, work email, password, phone,
   industry, company location). Successful registration signs the user in and
   lands on the dashboard.
 - **Login** (`/login`) with signed, http-only cookie sessions (7 days).
@@ -44,11 +44,11 @@ through the single store layer in `lib/store.js`.
 
 `lib/store.js` picks its backend from the environment:
 
-| Variable | Purpose |
-| --- | --- |
-| `SUPABASE_URL` | Supabase project URL. When set together with the service role key, the Supabase backend is used. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only — never expose to the browser). |
-| `AUTH_SECRET` | Secret used to sign session cookies. Set a long random value in production; a development fallback is used locally when unset. |
+| Variable                    | Purpose                                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `SUPABASE_URL`              | Supabase project URL. When set together with the service role key, the Supabase backend is used.                               |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only — never expose to the browser).                                                    |
+| `AUTH_SECRET`               | Secret used to sign session cookies. Set a long random value in production; a development fallback is used locally when unset. |
 
 **Supabase setup:** create a project at supabase.com, open the SQL Editor,
 paste the contents of [`supabase/schema.sql`](supabase/schema.sql) and run it

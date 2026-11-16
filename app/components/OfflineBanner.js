@@ -26,8 +26,8 @@ export default function OfflineBanner() {
   return (
     <div className="offline-banner" role="status">
       <span className="offline-dot" aria-hidden="true" />
-      You are offline. You can keep reading what is already loaded — new
-      changes cannot be saved until your connection returns.
+      You are offline. You can keep reading what is already loaded — new changes
+      cannot be saved until your connection returns.
     </div>
   );
 }

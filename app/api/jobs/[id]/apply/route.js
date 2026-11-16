@@ -12,39 +12,58 @@ export async function POST(request, { params }) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const user = await getSessionUser();
   if (!user) {
-    return NextResponse.json({ error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN }, { status: 401 });
+    return NextResponse.json(
+      { error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN },
+      { status: 401 },
+    );
   }
   if (user.role !== "professional") {
     return NextResponse.json(
-      { error: "Only skilled professionals can apply for jobs.", code: ERROR_CODES.ROLE_FORBIDDEN },
-      { status: 403 }
+      {
+        error: "Only skilled professionals can apply for jobs.",
+        code: ERROR_CODES.ROLE_FORBIDDEN,
+      },
+      { status: 403 },
     );
   }
   // Guard (lib/states): the role check above already passed, so this is
   // exactly the verified check it replaces — same message, same status.
   if (!canApply(user)) {
     return NextResponse.json(
-      { error: "Please verify your email address before applying. Enter the 6-digit code sent to your email on the verification page.", code: ERROR_CODES.EMAIL_UNVERIFIED },
-      { status: 403 }
+      {
+        error:
+          "Please verify your email address before applying. Enter the 6-digit code sent to your email on the verification page.",
+        code: ERROR_CODES.EMAIL_UNVERIFIED,
+      },
+      { status: 403 },
     );
   }
 
   const { id } = await params;
   const job = await getJob(id);
   if (!job) {
-    return NextResponse.json({ error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND }, { status: 404 });
+    return NextResponse.json(
+      { error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND },
+      { status: 404 },
+    );
   }
 
   // Lifecycle gate: a closed job refuses new applications, and a
   // deleted job does not exist publicly — same 404 as a missing job.
   const state = jobState(job);
   if (state === "deleted") {
-    return NextResponse.json({ error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND }, { status: 404 });
+    return NextResponse.json(
+      { error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND },
+      { status: 404 },
+    );
   }
   if (state === "closed") {
     return NextResponse.json(
-      { error: "This job is closed and is no longer accepting applications.", code: ERROR_CODES.JOB_CLOSED },
-      { status: 409 }
+      {
+        error: "This job is closed and is no longer accepting applications.",
+        code: ERROR_CODES.JOB_CLOSED,
+      },
+      { status: 409 },
     );
   }
 
@@ -63,10 +82,16 @@ export async function POST(request, { params }) {
   });
   if (!result.ok) {
     return NextResponse.json(
-      { error: "You have already applied for this job.", code: ERROR_CODES.ALREADY_APPLIED },
-      { status: 409 }
+      {
+        error: "You have already applied for this job.",
+        code: ERROR_CODES.ALREADY_APPLIED,
+      },
+      { status: 409 },
     );
   }
 
-  return NextResponse.json({ application: result.application }, { status: 201 });
+  return NextResponse.json(
+    { application: result.application },
+    { status: 201 },
+  );
 }

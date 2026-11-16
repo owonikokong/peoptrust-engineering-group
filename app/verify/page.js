@@ -67,7 +67,7 @@ export default function VerifyPage() {
       setNotice(
         data.mailSent
           ? "A new code is on its way to your email."
-          : "A new code was generated. If email delivery is not connected yet, please contact PeopTrust support."
+          : "A new code was generated. If email delivery is not connected yet, please contact PeopTrust support.",
       );
       setCooldown(60);
     } catch (err) {
@@ -138,9 +138,7 @@ export default function VerifyPage() {
                   onClick={resend}
                   disabled={cooldown > 0}
                 >
-                  {cooldown > 0
-                    ? `Resend code in ${cooldown}s`
-                    : "Resend code"}
+                  {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
                 </button>
               </p>
             </form>

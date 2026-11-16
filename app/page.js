@@ -39,10 +39,10 @@ export default function Home() {
             Building tomorrow with people, skills and sustainable solutions
           </h1>
           <p className="lead">
-            PeopTrust Engineering Group is built for Nigeria. Employers
-            here connect with verified engineering professionals, and
-            get the technical services, equipment and project support
-            Nigerian projects need.
+            PeopTrust Engineering Group is built for Nigeria. Employers here
+            connect with verified engineering professionals, and get the
+            technical services, equipment and project support Nigerian projects
+            need.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-primary" href="/jobs">
@@ -70,9 +70,9 @@ export default function Home() {
           <h2>People, skills and projects</h2>
           <p className="lead">
             One platform for skilled workers, employers and engineering
-            solutions — serving Construction, Manufacturing, Energy
-            &amp; Power, Oil &amp; Gas, Civil Infrastructure, and
-            Facilities &amp; Maintenance across Nigeria.
+            solutions — serving Construction, Manufacturing, Energy &amp; Power,
+            Oil &amp; Gas, Civil Infrastructure, and Facilities &amp;
+            Maintenance across Nigeria.
           </p>
           <div className="stats stats-band">
             {bandStats.map((stat) => (
@@ -97,7 +97,11 @@ export default function Home() {
           </p>
           <div className="grid grid-3">
             {services.map((service) => (
-              <article data-reveal className="card service-card" key={service.title}>
+              <article
+                data-reveal
+                className="card service-card"
+                key={service.title}
+              >
                 <img
                   className="service-img"
                   src={service.image}
@@ -121,10 +125,9 @@ export default function Home() {
           <p className="eyebrow">Trades &amp; skill areas</p>
           <h2>Find the trade your project needs</h2>
           <p className="lead">
-            Every professional profile names a trade or skill area, with
-            key skills, years of experience and availability — so an
-            employer in Nigeria can see at a glance who does the work
-            the project needs.
+            Every professional profile names a trade or skill area, with key
+            skills, years of experience and availability — so an employer in
+            Nigeria can see at a glance who does the work the project needs.
           </p>
           <div className="tag-row" style={{ marginTop: "28px" }}>
             {TRADES.filter((trade) => trade !== "Other").map((trade) => (
@@ -145,8 +148,8 @@ export default function Home() {
           <p className="eyebrow">How it works</p>
           <h2>From profile to project in three steps</h2>
           <p className="lead">
-            Whether you are looking for work or looking to hire, getting
-            started is straightforward.
+            Whether you are looking for work or looking to hire, getting started
+            is straightforward.
           </p>
           <div className="steps">
             {steps.map((step, index) => (
@@ -166,9 +169,9 @@ export default function Home() {
           <p className="eyebrow">See it in action</p>
           <h2>Post a job. Verified professionals apply.</h2>
           <p className="lead">
-            This is the employer dashboard, doing its everyday work: a job
-            goes up in under a minute, and every application that comes back
-            is from a verified professional.
+            This is the employer dashboard, doing its everyday work: a job goes
+            up in under a minute, and every application that comes back is from
+            a verified professional.
           </p>
           <div className="demo-wrap" data-reveal>
             <DemoMount />
@@ -187,10 +190,9 @@ export default function Home() {
                 PeopTrust Engineering Group is a forward-thinking engineering
                 services and talent marketplace built around people, practical
                 expertise and dependable delivery. We help organisations find
-                the right professionals and help skilled workers access
-                credible opportunities. Our focus, for a start, is Nigeria:
-                Nigerian employers, Nigerian professionals and Nigerian
-                projects.
+                the right professionals and help skilled workers access credible
+                opportunities. Our focus, for a start, is Nigeria: Nigerian
+                employers, Nigerian professionals and Nigerian projects.
               </p>
               <div className="points">
                 <span>Professional Team</span>
@@ -208,7 +210,6 @@ export default function Home() {
               className="split-img"
             />
           </div>
-
         </div>
       </section>
 
@@ -223,7 +224,11 @@ export default function Home() {
           </p>
           <div className="grid grid-2">
             {projects.map((project) => (
-              <article data-reveal className="card project-card" key={project.title}>
+              <article
+                data-reveal
+                className="card project-card"
+                key={project.title}
+              >
                 <div className="project-img-wrap">
                   <img
                     src={project.image}

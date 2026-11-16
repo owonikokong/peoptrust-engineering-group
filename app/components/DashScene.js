@@ -24,10 +24,22 @@ function gearShape(teeth, pitchRadius) {
   for (let i = 0; i < teeth; i++) {
     const a = i * step;
     pts.push([Math.cos(a) * rRoot, Math.sin(a) * rRoot]);
-    pts.push([Math.cos(a + step * 0.22) * rRoot, Math.sin(a + step * 0.22) * rRoot]);
-    pts.push([Math.cos(a + step * 0.34) * rOuter, Math.sin(a + step * 0.34) * rOuter]);
-    pts.push([Math.cos(a + step * 0.62) * rOuter, Math.sin(a + step * 0.62) * rOuter]);
-    pts.push([Math.cos(a + step * 0.74) * rRoot, Math.sin(a + step * 0.74) * rRoot]);
+    pts.push([
+      Math.cos(a + step * 0.22) * rRoot,
+      Math.sin(a + step * 0.22) * rRoot,
+    ]);
+    pts.push([
+      Math.cos(a + step * 0.34) * rOuter,
+      Math.sin(a + step * 0.34) * rOuter,
+    ]);
+    pts.push([
+      Math.cos(a + step * 0.62) * rOuter,
+      Math.sin(a + step * 0.62) * rOuter,
+    ]);
+    pts.push([
+      Math.cos(a + step * 0.74) * rRoot,
+      Math.sin(a + step * 0.74) * rRoot,
+    ]);
   }
   shape.moveTo(pts[0][0], pts[0][1]);
   for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
@@ -53,8 +65,13 @@ function makeGear(teeth, material) {
   const group = new THREE.Group();
   group.add(new THREE.Mesh(geometry, material));
   const hub = new THREE.Mesh(
-    new THREE.CylinderGeometry(pitchRadius * 0.3, pitchRadius * 0.3, DEPTH + 0.3, 28),
-    material
+    new THREE.CylinderGeometry(
+      pitchRadius * 0.3,
+      pitchRadius * 0.3,
+      DEPTH + 0.3,
+      28,
+    ),
+    material,
   );
   hub.rotation.x = Math.PI / 2;
   group.add(hub);
@@ -85,7 +102,7 @@ export default function DashScene() {
 
     try {
       const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+        "(prefers-reduced-motion: reduce)",
       ).matches;
 
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
@@ -107,13 +124,19 @@ export default function DashScene() {
       scene.add(new THREE.HemisphereLight(0xbcd7ff, 0x1a2b1a, 0.5));
 
       const steel = new THREE.MeshStandardMaterial({
-        color: 0xd7dee6, metalness: 0.9, roughness: 0.32,
+        color: 0xd7dee6,
+        metalness: 0.9,
+        roughness: 0.32,
       });
       const green = new THREE.MeshStandardMaterial({
-        color: 0x0e7a4f, metalness: 0.55, roughness: 0.38,
+        color: 0x0e7a4f,
+        metalness: 0.55,
+        roughness: 0.38,
       });
       const amber = new THREE.MeshStandardMaterial({
-        color: 0xf2a81d, metalness: 0.6, roughness: 0.35,
+        color: 0xf2a81d,
+        metalness: 0.6,
+        roughness: 0.35,
       });
 
       const rig = new THREE.Group();
@@ -124,8 +147,16 @@ export default function DashScene() {
       const distAC = a.pitchRadius + c.pitchRadius;
       const angB = THREE.MathUtils.degToRad(205);
       const angC = THREE.MathUtils.degToRad(-28);
-      b.group.position.set(Math.cos(angB) * distAB, Math.sin(angB) * distAB, -0.1);
-      c.group.position.set(Math.cos(angC) * distAC, Math.sin(angC) * distAC, 0.12);
+      b.group.position.set(
+        Math.cos(angB) * distAB,
+        Math.sin(angB) * distAB,
+        -0.1,
+      );
+      c.group.position.set(
+        Math.cos(angC) * distAC,
+        Math.sin(angC) * distAC,
+        0.12,
+      );
       rig.add(a.group, b.group, c.group);
       rig.scale.setScalar(0.68);
       rig.position.x = 0.4;
@@ -141,12 +172,15 @@ export default function DashScene() {
         targetRX = -ny * 0.1;
       };
       const parent = canvas.parentElement;
-      if (parent && !reducedMotion) parent.addEventListener("pointermove", onPointer);
+      if (parent && !reducedMotion)
+        parent.addEventListener("pointermove", onPointer);
 
       let visible = true;
       const io = new IntersectionObserver(
-        (entries) => { visible = entries[0]?.isIntersecting ?? true; },
-        { threshold: 0.05 }
+        (entries) => {
+          visible = entries[0]?.isIntersecting ?? true;
+        },
+        { threshold: 0.05 },
       );
       io.observe(canvas);
 

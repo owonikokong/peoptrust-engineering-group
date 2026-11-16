@@ -8,7 +8,11 @@ export const metadata = {
 
 const contacts = [
   { label: "Visit", value: "Lagos, Nigeria" },
-  { label: "Email", value: "info@peoptrust.com", href: "mailto:info@peoptrust.com" },
+  {
+    label: "Email",
+    value: "info@peoptrust.com",
+    href: "mailto:info@peoptrust.com",
+  },
   { label: "Call", value: "+234 704 027 0608", href: "tel:+2347040270608" },
 ];
 
@@ -21,8 +25,8 @@ export default function ContactPage() {
           <h1>Project, talent or equipment?</h1>
           <p className="lead">
             Share your requirements and our team can help shape the next step.
-            It helps to include the service or trade you need, where in
-            Nigeria the work is, and when you need it.
+            It helps to include the service or trade you need, where in Nigeria
+            the work is, and when you need it.
           </p>
         </div>
       </section>
@@ -57,15 +61,15 @@ export default function ContactPage() {
             <article data-reveal className="card">
               <h3>Project</h3>
               <p>
-                Share the service area or trade, the scope of work, and
-                the location in Nigeria.
+                Share the service area or trade, the scope of work, and the
+                location in Nigeria.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>Talent</h3>
               <p>
-                Share the role or trade, the key skills, and the
-                availability you need.
+                Share the role or trade, the key skills, and the availability
+                you need.
               </p>
             </article>
             <article data-reveal className="card">

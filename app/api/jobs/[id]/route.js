@@ -17,24 +17,36 @@ export async function PATCH(request, { params }) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY },
+      { status: 400 },
+    );
   }
   const { error, fields } = validateJobFields(body);
   if (error) {
-    return NextResponse.json({ error, code: ERROR_CODES.VALIDATION }, { status: 400 });
+    return NextResponse.json(
+      { error, code: ERROR_CODES.VALIDATION },
+      { status: 400 },
+    );
   }
 
   const result = await updateJob({ user, job, fields });
   if (!result.ok) {
     if (result.reason === "not-owner") {
       return NextResponse.json(
-        { error: "Only the employer who posted this job can change it.", code: ERROR_CODES.NOT_JOB_OWNER },
-        { status: 403 }
+        {
+          error: "Only the employer who posted this job can change it.",
+          code: ERROR_CODES.NOT_JOB_OWNER,
+        },
+        { status: 403 },
       );
     }
     return NextResponse.json(
-      { error: "Only open jobs can be edited.", code: ERROR_CODES.JOB_WRONG_STATE },
-      { status: 409 }
+      {
+        error: "Only open jobs can be edited.",
+        code: ERROR_CODES.JOB_WRONG_STATE,
+      },
+      { status: 409 },
     );
   }
   return NextResponse.json({ job: result.job });
@@ -52,13 +64,19 @@ export async function DELETE(request, { params }) {
   if (!result.ok) {
     if (result.reason === "not-owner") {
       return NextResponse.json(
-        { error: "Only the employer who posted this job can change it.", code: ERROR_CODES.NOT_JOB_OWNER },
-        { status: 403 }
+        {
+          error: "Only the employer who posted this job can change it.",
+          code: ERROR_CODES.NOT_JOB_OWNER,
+        },
+        { status: 403 },
       );
     }
     return NextResponse.json(
-      { error: "This job has already been deleted.", code: ERROR_CODES.JOB_WRONG_STATE },
-      { status: 409 }
+      {
+        error: "This job has already been deleted.",
+        code: ERROR_CODES.JOB_WRONG_STATE,
+      },
+      { status: 409 },
     );
   }
   return NextResponse.json({ job: result.job });

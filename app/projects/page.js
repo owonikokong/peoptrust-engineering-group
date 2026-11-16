@@ -25,7 +25,11 @@ export default function ProjectsPage() {
         <div className="container">
           <div className="grid grid-2">
             {projects.map((project) => (
-              <article data-reveal className="card project-card" key={project.title}>
+              <article
+                data-reveal
+                className="card project-card"
+                key={project.title}
+              >
                 <div className="project-img-wrap">
                   <img
                     src={project.image}
@@ -52,11 +56,10 @@ export default function ProjectsPage() {
           <p className="eyebrow">Your project in Nigeria</p>
           <h2>Building services, roads, power and maintenance</h2>
           <p className="lead">
-            The assignments above cover building services, road
-            construction, power distribution and industrial maintenance.
-            If your project needs similar support in Nigeria, share your
-            requirements and the PeopTrust team can help shape the next
-            step.
+            The assignments above cover building services, road construction,
+            power distribution and industrial maintenance. If your project needs
+            similar support in Nigeria, share your requirements and the
+            PeopTrust team can help shape the next step.
           </p>
           <div style={{ display: "flex", gap: "8px 28px", flexWrap: "wrap" }}>
             <Link className="text-link" href="/contact">

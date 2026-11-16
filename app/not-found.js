@@ -12,8 +12,8 @@ export default function NotFound() {
           <p className="eyebrow">404</p>
           <h2>We could not find that page</h2>
           <p>
-            The link may be old, or the page may have moved. The role or
-            profile you were looking for might also have been removed.
+            The link may be old, or the page may have moved. The role or profile
+            you were looking for might also have been removed.
           </p>
           <div className="state-actions">
             <Link href="/jobs" className="btn btn-primary">

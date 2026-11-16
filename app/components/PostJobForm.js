@@ -79,7 +79,7 @@ export default function PostJobForm() {
         if (res.status === 401) {
           setErrorKind("expired");
           throw new Error(
-            "Your session expired before this was posted. Your draft is saved in this tab — log in again, come back here, and press Post job."
+            "Your session expired before this was posted. Your draft is saved in this tab — log in again, come back here, and press Post job.",
           );
         }
         // Classify by the API's stable error code (shared vocabulary in
@@ -107,7 +107,7 @@ export default function PostJobForm() {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again. Your draft is saved in this tab."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy(false);
@@ -122,7 +122,9 @@ export default function PostJobForm() {
           <p>{error}</p>
           {errorKind === "expired" && (
             <p className="success-actions">
-              <Link href="/login?expired=1&next=/dashboard">Log in again to continue</Link>
+              <Link href="/login?expired=1&next=/dashboard">
+                Log in again to continue
+              </Link>
             </p>
           )}
           {errorKind === "verify" && (
@@ -135,7 +137,10 @@ export default function PostJobForm() {
       )}
       {success && (
         <div className="alert alert-success">
-          <p>Job posted. It is now listed on the Jobs page for every professional to see.</p>
+          <p>
+            Job posted. It is now listed on the Jobs page for every professional
+            to see.
+          </p>
           <p className="success-actions">
             <Link href="/jobs">View it on the Jobs page</Link>
           </p>

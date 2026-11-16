@@ -57,8 +57,11 @@ export function middleware(request) {
         }
         if (originHost !== request.headers.get("host")) {
           const blocked = NextResponse.json(
-            { error: "This request did not come from PeopTrust. Please use the website to do this." },
-            { status: 403 }
+            {
+              error:
+                "This request did not come from PeopTrust. Please use the website to do this.",
+            },
+            { status: 403 },
           );
           blocked.headers.set("Cache-Control", "private, no-store");
           return blocked;
