@@ -91,16 +91,26 @@ function makeGear({ teeth, material, phase = 0 }) {
 
   // Hub + shaft through the bore.
   const hub = new THREE.Mesh(
-    new THREE.CylinderGeometry(pitchRadius * 0.3, pitchRadius * 0.3, GEAR_DEPTH + 0.36, 32),
-    material
+    new THREE.CylinderGeometry(
+      pitchRadius * 0.3,
+      pitchRadius * 0.3,
+      GEAR_DEPTH + 0.36,
+      32,
+    ),
+    material,
   );
   hub.rotation.x = Math.PI / 2;
   hub.castShadow = true;
   group.add(hub);
 
   const shaft = new THREE.Mesh(
-    new THREE.CylinderGeometry(pitchRadius * 0.13, pitchRadius * 0.13, GEAR_DEPTH + 1.5, 24),
-    material
+    new THREE.CylinderGeometry(
+      pitchRadius * 0.13,
+      pitchRadius * 0.13,
+      GEAR_DEPTH + 1.5,
+      24,
+    ),
+    material,
   );
   shaft.rotation.x = Math.PI / 2;
   shaft.castShadow = true;
@@ -134,7 +144,7 @@ export default function HeroScene() {
 
     try {
       const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+        "(prefers-reduced-motion: reduce)",
       ).matches;
       const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
@@ -174,7 +184,7 @@ export default function HeroScene() {
       // Invisible ground plane that only catches the gears' shadows.
       const ground = new THREE.Mesh(
         new THREE.PlaneGeometry(40, 40),
-        new THREE.ShadowMaterial({ opacity: 0.22 })
+        new THREE.ShadowMaterial({ opacity: 0.22 }),
       );
       ground.rotation.x = -Math.PI / 2;
       ground.position.y = -2.9;
@@ -216,7 +226,7 @@ export default function HeroScene() {
       idler.group.position.set(
         driver.group.position.x + driver.pitchRadius + idler.pitchRadius,
         driver.group.position.y,
-        -0.35
+        -0.35,
       );
       // Output meshes with the idler up-and-to-the-right at ~55 degrees.
       const meshAngle = THREE.MathUtils.degToRad(55);
@@ -224,7 +234,7 @@ export default function HeroScene() {
       output.group.position.set(
         idler.group.position.x + Math.cos(meshAngle) * centreDist,
         idler.group.position.y + Math.sin(meshAngle) * centreDist,
-        0.3
+        0.3,
       );
       // Recompute the output phase for its actual mesh direction: tooth of
       // the idler pointing along -meshAngle meets a gap of the output.
@@ -257,14 +267,14 @@ export default function HeroScene() {
               intensity: 0.32,
               radius: 0.5,
             }),
-            new VignetteEffect({ offset: 0.24, darkness: 0.52 })
-          )
+            new VignetteEffect({ offset: 0.24, darkness: 0.52 }),
+          ),
         );
         composer.addPass(
           new EffectPass(
             camera,
-            new ToneMappingEffect({ mode: ToneMappingMode.ACES_FILMIC })
-          )
+            new ToneMappingEffect({ mode: ToneMappingMode.ACES_FILMIC }),
+          ),
         );
         // The composer's ACES pass reads brighter than three's material
         // tone mapping at the same exposure, so pull the light down on
@@ -316,7 +326,7 @@ export default function HeroScene() {
         ([entry]) => {
           inView = entry.isIntersecting;
         },
-        { threshold: 0.02 }
+        { threshold: 0.02 },
       );
       observer.observe(canvas);
       const onVisibility = () => {
@@ -365,7 +375,8 @@ export default function HeroScene() {
         scene.traverse((o) => {
           if (o.isMesh) {
             o.geometry?.dispose();
-            if (Array.isArray(o.material)) o.material.forEach((m) => m.dispose());
+            if (Array.isArray(o.material))
+              o.material.forEach((m) => m.dispose());
             else o.material?.dispose();
           }
         });

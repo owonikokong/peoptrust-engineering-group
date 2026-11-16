@@ -19,20 +19,30 @@ export async function POST(request) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const user = await getSessionUser();
   if (!user) {
-    return NextResponse.json({ error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN }, { status: 401 });
+    return NextResponse.json(
+      { error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN },
+      { status: 401 },
+    );
   }
   if (user.role !== "employer") {
     return NextResponse.json(
-      { error: "Only employers can post jobs.", code: ERROR_CODES.ROLE_FORBIDDEN },
-      { status: 403 }
+      {
+        error: "Only employers can post jobs.",
+        code: ERROR_CODES.ROLE_FORBIDDEN,
+      },
+      { status: 403 },
     );
   }
   // Guard (lib/states): the role check above already passed, so this is
   // exactly the verified check it replaces — same message, same status.
   if (!canPost(user)) {
     return NextResponse.json(
-      { error: "Please verify your email address before posting a job. Enter the 6-digit code sent to your email on the verification page.", code: ERROR_CODES.EMAIL_UNVERIFIED },
-      { status: 403 }
+      {
+        error:
+          "Please verify your email address before posting a job. Enter the 6-digit code sent to your email on the verification page.",
+        code: ERROR_CODES.EMAIL_UNVERIFIED,
+      },
+      { status: 403 },
     );
   }
 
@@ -40,20 +50,26 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY },
+      { status: 400 },
+    );
   }
 
   // Field validation is shared with PATCH /api/jobs/[id] (lib/job-fields):
   // same rules, same order, same messages.
   const { error, fields } = validateJobFields(body);
   if (error) {
-    return NextResponse.json({ error, code: ERROR_CODES.VALIDATION }, { status: 400 });
+    return NextResponse.json(
+      { error, code: ERROR_CODES.VALIDATION },
+      { status: 400 },
+    );
   }
 
   const { job } = await postJob({ user, fields });
 
   return NextResponse.json(
     { job: { ...job, companyName: user.companyName } },
-    { status: 201 }
+    { status: 201 },
   );
 }

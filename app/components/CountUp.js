@@ -12,7 +12,9 @@ export default function CountUp({ value, decimals = 0, suffix = "" }) {
     const node = ref.current;
     if (!node) return undefined;
     const target = Number(value) || 0;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduced) {
       setDisplay(target);
       return undefined;
@@ -32,11 +34,16 @@ export default function CountUp({ value, decimals = 0, suffix = "" }) {
       raf = requestAnimationFrame(tick);
     };
     const io = new IntersectionObserver(
-      (entries) => { if (entries[0]?.isIntersecting) begin(); },
-      { threshold: 0.4 }
+      (entries) => {
+        if (entries[0]?.isIntersecting) begin();
+      },
+      { threshold: 0.4 },
     );
     io.observe(node);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, [value]);
 
   return (

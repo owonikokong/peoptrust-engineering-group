@@ -14,12 +14,16 @@ export default function ErrorPage({ reset }) {
           <p className="eyebrow">Something went wrong</p>
           <h2>This page did not load</h2>
           <p>
-            Sorry — something failed on our side while loading this page. It
-            is usually temporary. Try again, and if it keeps happening, come
-            back in a few minutes.
+            Sorry — something failed on our side while loading this page. It is
+            usually temporary. Try again, and if it keeps happening, come back
+            in a few minutes.
           </p>
           <div className="state-actions">
-            <button type="button" className="btn btn-primary" onClick={() => reset()}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => reset()}
+            >
               Try again
             </button>
             <Link href="/" className="btn btn-ghost">

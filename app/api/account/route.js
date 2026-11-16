@@ -5,7 +5,10 @@ import { rateLimit, tooManyRequests } from "../../../lib/ratelimit";
 import { ERROR_CODES } from "../../../lib/error-codes";
 
 function bad(message) {
-  return NextResponse.json({ error: message, code: ERROR_CODES.VALIDATION }, { status: 400 });
+  return NextResponse.json(
+    { error: message, code: ERROR_CODES.VALIDATION },
+    { status: 400 },
+  );
 }
 
 function required(body, field) {
@@ -28,14 +31,20 @@ export async function PATCH(request) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
-    return NextResponse.json({ error: "Not signed in.", code: ERROR_CODES.NOT_SIGNED_IN }, { status: 401 });
+    return NextResponse.json(
+      { error: "Not signed in.", code: ERROR_CODES.NOT_SIGNED_IN },
+      { status: 401 },
+    );
   }
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY },
+      { status: 400 },
+    );
   }
 
   const name = required(body, "name");
@@ -59,21 +68,35 @@ export async function PATCH(request) {
       return bad("Please enter your years of experience.");
     }
     const skills = required(body, "skills");
-    if (!skills) return bad("Please list your key skills (e.g. TIG welding, rigging, panel wiring).");
+    if (!skills)
+      return bad(
+        "Please list your key skills (e.g. TIG welding, rigging, panel wiring).",
+      );
     const availability = required(body, "availability");
     if (!availability) return bad("Please choose your availability.");
     const summary = required(body, "summary");
     if (!summary) return bad("Please write a short professional summary.");
-    if (summary.length > 600) return bad("Please keep your summary under 600 characters.");
+    if (summary.length > 600)
+      return bad("Please keep your summary under 600 characters.");
     // Optional employer-facing dossier fields (visible to employers on the
     // professional's page, only where provided). Empty clears them.
-    const previousExperience = body.previousExperience ? String(body.previousExperience).trim() : "";
-    if (previousExperience.length > 2000) return bad("Please keep your previous experience under 2,000 characters.");
-    const certifications = body.certifications ? String(body.certifications).trim() : "";
-    if (certifications.length > 1000) return bad("Please keep your certifications under 1,000 characters.");
+    const previousExperience = body.previousExperience
+      ? String(body.previousExperience).trim()
+      : "";
+    if (previousExperience.length > 2000)
+      return bad(
+        "Please keep your previous experience under 2,000 characters.",
+      );
+    const certifications = body.certifications
+      ? String(body.certifications).trim()
+      : "";
+    if (certifications.length > 1000)
+      return bad("Please keep your certifications under 1,000 characters.");
     const cvUrl = body.cvUrl ? String(body.cvUrl).trim() : "";
-    if (cvUrl && !/^https?:\/\/[^\s]+$/i.test(cvUrl)) return bad("Please enter a valid CV link starting with https://");
-    if (cvUrl.length > 500) return bad("Please keep your CV link under 500 characters.");
+    if (cvUrl && !/^https?:\/\/[^\s]+$/i.test(cvUrl))
+      return bad("Please enter a valid CV link starting with https://");
+    if (cvUrl.length > 500)
+      return bad("Please keep your CV link under 500 characters.");
     Object.assign(fields, {
       trade,
       skills,
@@ -93,7 +116,8 @@ export async function PATCH(request) {
     if (!companySize) return bad("Please choose your company size.");
     const description = required(body, "description");
     if (!description) return bad("Please write a short company description.");
-    if (description.length > 600) return bad("Please keep the company description under 600 characters.");
+    if (description.length > 600)
+      return bad("Please keep the company description under 600 characters.");
     Object.assign(fields, {
       companyName,
       industry,

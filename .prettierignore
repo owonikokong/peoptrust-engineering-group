@@ -1,0 +1,13 @@
+# Prettier exclusions. The vendored stageshow kit (app/components/stageshow)
+# is upstream-owned demo code — never reformatted here; fixes come from
+# upstream. Build output, dependencies and the local file database are
+# already gitignored (Prettier respects .gitignore); they are listed here
+# too so the exclusion is explicit. package-lock.json is machine-generated.
+# public/ holds only binary assets and SVG, which Prettier does not format.
+node_modules
+.next
+out
+data
+package-lock.json
+public
+app/components/stageshow

@@ -1,0 +1,5 @@
+# Revisions whose diffs are formatting-only and should be skipped by
+# `git blame` (set with `git config blame.ignoreRevsFile
+# .git-blame-ignore-revs`, or rely on GitHub, which honours this file).
+# 7c836a3: Standards Phase 2 — whole-repo Prettier format, no hand edits.
+7c836a3c84c8a0cc98fbbe6415fcf2eb40aa29c3

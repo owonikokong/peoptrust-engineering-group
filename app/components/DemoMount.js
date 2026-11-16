@@ -10,7 +10,7 @@ const PeoptrustDemo = dynamic(
   {
     ssr: false,
     loading: () => <div className="demo-placeholder" aria-hidden="true" />,
-  }
+  },
 );
 
 export default function DemoMount() {

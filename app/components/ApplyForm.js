@@ -48,7 +48,7 @@ export default function ApplyForm({ jobId }) {
         if (res.status === 401) {
           setErrorKind("expired");
           throw new Error(
-            "Your session expired before this was sent. Your cover note is saved in this tab — log in again, come back here, and press Apply."
+            "Your session expired before this was sent. Your cover note is saved in this tab — log in again, come back here, and press Apply.",
           );
         }
         // Classify by the API's stable error code (shared vocabulary in
@@ -74,7 +74,7 @@ export default function ApplyForm({ jobId }) {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again. Your cover note is saved in this tab."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy(false);
@@ -86,8 +86,8 @@ export default function ApplyForm({ jobId }) {
     return (
       <div className="alert alert-success">
         <p>
-          Application submitted. The employer can now see it in their
-          dashboard, and we will show any update on yours.
+          Application submitted. The employer can now see it in their dashboard,
+          and we will show any update on yours.
         </p>
         <p className="success-actions">
           <Link href="/dashboard">Track it in your dashboard</Link>
@@ -122,8 +122,8 @@ export default function ApplyForm({ jobId }) {
           )}
           {errorKind === "verify" && (
             <p className="success-actions">
-              <Link href="/verify">Verify your email now</Link> — it takes
-              less than a minute with the code in your inbox.
+              <Link href="/verify">Verify your email now</Link> — it takes less
+              than a minute with the code in your inbox.
             </p>
           )}
         </div>

@@ -50,7 +50,9 @@ export default function AccountSidebar({ user, active }) {
                 <span className="tick">{"\u2713"}</span> Verified
               </>
             ) : (
-              <Link href="/verify">Not verified {"\u2014"} confirm your email</Link>
+              <Link href="/verify">
+                Not verified {"\u2014"} confirm your email
+              </Link>
             )}
           </dd>
         </div>

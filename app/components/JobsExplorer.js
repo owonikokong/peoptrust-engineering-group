@@ -21,7 +21,11 @@ function editDistance(a, b) {
     row[0] = i;
     for (let j = 1; j <= n; j++) {
       const cur = row[j];
-      row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      row[j] = Math.min(
+        row[j] + 1,
+        row[j - 1] + 1,
+        prev + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
       prev = cur;
     }
   }
@@ -33,16 +37,26 @@ export default function JobsExplorer({ jobs }) {
   const [category, setCategory] = useState("All categories");
 
   const categories = useMemo(
-    () => ["All categories", ...Array.from(new Set(jobs.map((j) => j.category))).sort()],
-    [jobs]
+    () => [
+      "All categories",
+      ...Array.from(new Set(jobs.map((j) => j.category))).sort(),
+    ],
+    [jobs],
   );
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     return jobs.filter((job) => {
-      if (category !== "All categories" && job.category !== category) return false;
+      if (category !== "All categories" && job.category !== category)
+        return false;
       if (!q) return true;
-      const haystack = [job.title, job.companyName, job.category, job.location, job.type]
+      const haystack = [
+        job.title,
+        job.companyName,
+        job.category,
+        job.location,
+        job.type,
+      ]
         .join(" ")
         .toLowerCase();
       return q.split(/\s+/).every((word) => haystack.includes(word));
@@ -57,7 +71,9 @@ export default function JobsExplorer({ jobs }) {
     const words = new Set();
     for (const job of jobs) {
       for (const text of [job.category, job.location, job.title]) {
-        for (const w of String(text).toLowerCase().split(/[^a-z]+/)) {
+        for (const w of String(text)
+          .toLowerCase()
+          .split(/[^a-z]+/)) {
           if (w.length >= 4) words.add(w);
         }
       }
@@ -126,8 +142,8 @@ export default function JobsExplorer({ jobs }) {
             ) : (
               ""
             )}
-            {category !== "All categories" ? <> in {category}</> : ""} right now.
-            Check the spelling, try a shorter word, or browse everything.
+            {category !== "All categories" ? <> in {category}</> : ""} right
+            now. Check the spelling, try a shorter word, or browse everything.
           </p>
           {suggestion && (
             <p>
@@ -143,7 +159,11 @@ export default function JobsExplorer({ jobs }) {
             </p>
           )}
           <div className="state-actions">
-            <button type="button" className="btn btn-primary" onClick={clearAll}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={clearAll}
+            >
               Show all roles
             </button>
             <Link href="/register" className="btn btn-ghost">

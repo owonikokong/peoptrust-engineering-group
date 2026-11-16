@@ -9,7 +9,10 @@ import { ERROR_CODES } from "../../../../lib/error-codes";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function bad(message) {
-  return NextResponse.json({ error: message, code: ERROR_CODES.VALIDATION }, { status: 400 });
+  return NextResponse.json(
+    { error: message, code: ERROR_CODES.VALIDATION },
+    { status: 400 },
+  );
 }
 
 function required(body, field, label) {
@@ -27,7 +30,10 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY },
+      { status: 400 },
+    );
   }
 
   const { role, name, email, password } = body || {};
@@ -72,21 +78,35 @@ export async function POST(request) {
       return bad("Please enter your years of experience.");
     }
     const skills = required(body, "skills");
-    if (!skills) return bad("Please list your key skills (e.g. TIG welding, rigging, panel wiring).");
+    if (!skills)
+      return bad(
+        "Please list your key skills (e.g. TIG welding, rigging, panel wiring).",
+      );
     const availability = required(body, "availability");
     if (!availability) return bad("Please choose your availability.");
     const summary = required(body, "summary");
     if (!summary) return bad("Please write a short professional summary.");
-    if (summary.length > 600) return bad("Please keep your summary under 600 characters.");
+    if (summary.length > 600)
+      return bad("Please keep your summary under 600 characters.");
     // Optional employer-facing dossier fields — shown to employers on the
     // professional's page only where provided.
-    const previousExperience = body.previousExperience ? String(body.previousExperience).trim() : "";
-    if (previousExperience.length > 2000) return bad("Please keep your previous experience under 2,000 characters.");
-    const certifications = body.certifications ? String(body.certifications).trim() : "";
-    if (certifications.length > 1000) return bad("Please keep your certifications under 1,000 characters.");
+    const previousExperience = body.previousExperience
+      ? String(body.previousExperience).trim()
+      : "";
+    if (previousExperience.length > 2000)
+      return bad(
+        "Please keep your previous experience under 2,000 characters.",
+      );
+    const certifications = body.certifications
+      ? String(body.certifications).trim()
+      : "";
+    if (certifications.length > 1000)
+      return bad("Please keep your certifications under 1,000 characters.");
     const cvUrl = body.cvUrl ? String(body.cvUrl).trim() : "";
-    if (cvUrl && !/^https?:\/\/[^\s]+$/i.test(cvUrl)) return bad("Please enter a valid CV link starting with https://");
-    if (cvUrl.length > 500) return bad("Please keep your CV link under 500 characters.");
+    if (cvUrl && !/^https?:\/\/[^\s]+$/i.test(cvUrl))
+      return bad("Please enter a valid CV link starting with https://");
+    if (cvUrl.length > 500)
+      return bad("Please keep your CV link under 500 characters.");
     fields = {
       ...base,
       trade,
@@ -107,7 +127,8 @@ export async function POST(request) {
     if (!companySize) return bad("Please choose your company size.");
     const description = required(body, "description");
     if (!description) return bad("Please write a short company description.");
-    if (description.length > 600) return bad("Please keep the company description under 600 characters.");
+    if (description.length > 600)
+      return bad("Please keep the company description under 600 characters.");
     fields = {
       ...base,
       companyName,
@@ -121,8 +142,11 @@ export async function POST(request) {
   const existing = await findUserByEmail(email);
   if (existing) {
     return NextResponse.json(
-      { error: "An account with this email already exists. Please log in.", code: ERROR_CODES.EMAIL_TAKEN },
-      { status: 409 }
+      {
+        error: "An account with this email already exists. Please log in.",
+        code: ERROR_CODES.EMAIL_TAKEN,
+      },
+      { status: 409 },
     );
   }
 
@@ -143,6 +167,6 @@ export async function POST(request) {
       needsVerification: true,
       mailSent: mail.sent,
     },
-    { status: 201 }
+    { status: 201 },
   );
 }

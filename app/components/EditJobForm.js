@@ -55,7 +55,7 @@ export default function EditJobForm({ job, onSaved, onCancel }) {
         if (res.status === 401) {
           setErrorKind("expired");
           throw new Error(
-            "Your session expired before these changes were saved. Log in again, come back here, and edit the job once more."
+            "Your session expired before these changes were saved. Log in again, come back here, and edit the job once more.",
           );
         }
         // Classify by the API's stable error code (shared vocabulary in
@@ -78,7 +78,7 @@ export default function EditJobForm({ job, onSaved, onCancel }) {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy(false);
@@ -98,7 +98,9 @@ export default function EditJobForm({ job, onSaved, onCancel }) {
           <p>{error}</p>
           {errorKind === "expired" && (
             <p className="success-actions">
-              <Link href="/login?expired=1&next=/dashboard">Log in again to continue</Link>
+              <Link href="/login?expired=1&next=/dashboard">
+                Log in again to continue
+              </Link>
             </p>
           )}
         </div>
@@ -107,7 +109,12 @@ export default function EditJobForm({ job, onSaved, onCancel }) {
         <button type="submit" className="btn btn-primary" disabled={busy}>
           {busy ? "Saving…" : "Save changes"}
         </button>
-        <button type="button" className="btn btn-outline" onClick={onCancel} disabled={busy}>
+        <button
+          type="button"
+          className="btn btn-outline"
+          onClick={onCancel}
+          disabled={busy}
+        >
           Cancel
         </button>
       </div>

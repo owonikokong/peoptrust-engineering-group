@@ -5,7 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { services } from "../../lib/data";
 
-import { AVAILABILITY, COMPANY_SIZES, INDUSTRIES, TRADES } from "../../lib/options";
+import {
+  AVAILABILITY,
+  COMPANY_SIZES,
+  INDUSTRIES,
+  TRADES,
+} from "../../lib/options";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -38,25 +43,34 @@ export default function RegisterPage() {
   function validate() {
     const errs = {};
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-      errs.email = "Enter a valid email address — it should look like you@example.com. Your confirmation code goes here.";
+      errs.email =
+        "Enter a valid email address — it should look like you@example.com. Your confirmation code goes here.";
     }
     if (form.password.length < 8) {
       errs.password = "Use at least 8 characters for your password.";
     }
     if (form.phone.replace(/\D/g, "").length < 7) {
-      errs.phone = "Enter a reachable phone number, including the country code if outside Nigeria.";
+      errs.phone =
+        "Enter a reachable phone number, including the country code if outside Nigeria.";
     }
     if (role === "professional") {
       const exp = Number(form.experience);
       if (form.experience === "" || Number.isNaN(exp) || exp < 0 || exp > 60) {
-        errs.experience = "Enter your years of experience as a number between 0 and 60.";
+        errs.experience =
+          "Enter your years of experience as a number between 0 and 60.";
       }
       if (form.cvUrl && !/^https?:\/\/.+/i.test(form.cvUrl.trim())) {
-        errs.cvUrl = "Paste the full link, starting with https:// — e.g. a Google Drive share link.";
+        errs.cvUrl =
+          "Paste the full link, starting with https:// — e.g. a Google Drive share link.";
       }
     }
-    if (role === "employer" && form.website && !/^https?:\/\/.+/i.test(form.website.trim())) {
-      errs.website = "Enter the full website address, starting with https:// — or leave it blank.";
+    if (
+      role === "employer" &&
+      form.website &&
+      !/^https?:\/\/.+/i.test(form.website.trim())
+    ) {
+      errs.website =
+        "Enter the full website address, starting with https:// — or leave it blank.";
     }
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
@@ -121,7 +135,8 @@ export default function RegisterPage() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Registration failed. Please try again.");
+      if (!res.ok)
+        throw new Error(data.error || "Registration failed. Please try again.");
       // Verification is verify-later: new accounts land on the dashboard
       // and can browse freely; applying and posting unlock once they enter
       // the 6-digit code (the dashboard banner links to /verify).
@@ -131,7 +146,7 @@ export default function RegisterPage() {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again. Nothing was submitted."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy(false);
@@ -147,8 +162,8 @@ export default function RegisterPage() {
           Skilled professionals find credible work; employers find verified
           engineering talent. After signing up, we&apos;ll email you a unique
           6-digit code to confirm your email address. You can start browsing
-          straight away and enter the code whenever you&apos;re ready —
-          just confirm before you apply for a job or post a role.
+          straight away and enter the code whenever you&apos;re ready — just
+          confirm before you apply for a job or post a role.
         </p>
 
         <div className="role-toggle" role="tablist" aria-label="Account type">
@@ -206,7 +221,9 @@ export default function RegisterPage() {
               onChange={update("email")}
               placeholder="you@example.com"
             />
-            {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
+            {fieldErrors.email && (
+              <p className="field-error">{fieldErrors.email}</p>
+            )}
           </div>
           <div className="field">
             <label htmlFor="password">Password (at least 8 characters)</label>
@@ -219,7 +236,9 @@ export default function RegisterPage() {
               aria-invalid={Boolean(fieldErrors.password)}
               onChange={update("password")}
             />
-            {fieldErrors.password && <p className="field-error">{fieldErrors.password}</p>}
+            {fieldErrors.password && (
+              <p className="field-error">{fieldErrors.password}</p>
+            )}
           </div>
           <div className="form-row">
             <div className="field">
@@ -232,7 +251,9 @@ export default function RegisterPage() {
                 onChange={update("phone")}
                 placeholder="+234 …"
               />
-              {fieldErrors.phone && <p className="field-error">{fieldErrors.phone}</p>}
+              {fieldErrors.phone && (
+                <p className="field-error">{fieldErrors.phone}</p>
+              )}
             </div>
             <div className="field">
               <label htmlFor="location">
@@ -253,7 +274,11 @@ export default function RegisterPage() {
               <div className="form-row">
                 <div className="field">
                   <label htmlFor="trade">Trade / skill area</label>
-                  <select id="trade" value={form.trade} onChange={update("trade")}>
+                  <select
+                    id="trade"
+                    value={form.trade}
+                    onChange={update("trade")}
+                  >
                     {TRADES.map((t) => (
                       <option key={t} value={t}>
                         {t}
@@ -274,7 +299,9 @@ export default function RegisterPage() {
                     onChange={update("experience")}
                     placeholder="e.g. 5"
                   />
-                  {fieldErrors.experience && <p className="field-error">{fieldErrors.experience}</p>}
+                  {fieldErrors.experience && (
+                    <p className="field-error">{fieldErrors.experience}</p>
+                  )}
                 </div>
               </div>
               <div className="form-row">
@@ -316,25 +343,33 @@ export default function RegisterPage() {
                 />
               </div>
               <div className="field">
-                <label htmlFor="previousExperience">Previous experience (optional)</label>
+                <label htmlFor="previousExperience">
+                  Previous experience (optional)
+                </label>
                 <textarea
                   id="previousExperience"
                   rows={4}
                   maxLength={2000}
                   value={form.previousExperience}
                   onChange={update("previousExperience")}
-                  placeholder={"Previous roles, employers and projects — one per line. Employers can see this on your profile page."}
+                  placeholder={
+                    "Previous roles, employers and projects — one per line. Employers can see this on your profile page."
+                  }
                 />
               </div>
               <div className="field">
-                <label htmlFor="certifications">Certifications (optional)</label>
+                <label htmlFor="certifications">
+                  Certifications (optional)
+                </label>
                 <textarea
                   id="certifications"
                   rows={3}
                   maxLength={1000}
                   value={form.certifications}
                   onChange={update("certifications")}
-                  placeholder={"Certifications — one per line, e.g. COREN, HSE Level 3."}
+                  placeholder={
+                    "Certifications — one per line, e.g. COREN, HSE Level 3."
+                  }
                 />
               </div>
               <div className="field">
@@ -348,7 +383,9 @@ export default function RegisterPage() {
                   onChange={update("cvUrl")}
                   placeholder="https://drive.google.com/…"
                 />
-                {fieldErrors.cvUrl && <p className="field-error">{fieldErrors.cvUrl}</p>}
+                {fieldErrors.cvUrl && (
+                  <p className="field-error">{fieldErrors.cvUrl}</p>
+                )}
               </div>
             </>
           ) : (
@@ -356,7 +393,11 @@ export default function RegisterPage() {
               <div className="form-row">
                 <div className="field">
                   <label htmlFor="industry">Industry</label>
-                  <select id="industry" value={form.industry} onChange={update("industry")}>
+                  <select
+                    id="industry"
+                    value={form.industry}
+                    onChange={update("industry")}
+                  >
                     {INDUSTRIES.map((i) => (
                       <option key={i} value={i}>
                         {i}
@@ -388,7 +429,9 @@ export default function RegisterPage() {
                   onChange={update("website")}
                   placeholder="e.g. https://yourcompany.ng"
                 />
-                {fieldErrors.website && <p className="field-error">{fieldErrors.website}</p>}
+                {fieldErrors.website && (
+                  <p className="field-error">{fieldErrors.website}</p>
+                )}
               </div>
               <div className="field">
                 <label htmlFor="description">Company description</label>
@@ -406,7 +449,11 @@ export default function RegisterPage() {
           )}
 
           {error && <p className="alert alert-error">{error}</p>}
-          <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+          <button
+            type="submit"
+            className="btn btn-primary btn-block"
+            disabled={busy}
+          >
             {busy ? "Creating account…" : "Create account"}
           </button>
           <p className="form-foot">

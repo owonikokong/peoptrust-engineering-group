@@ -101,9 +101,8 @@ export default function RootLayout({ children }) {
               </span>
               <p className="footer-brand">PeopTrust Engineering Group</p>
               <p className="footer-line">
-                Engineering services and a skilled-labour marketplace
-                connecting employers with verified professionals across
-                Nigeria.
+                Engineering services and a skilled-labour marketplace connecting
+                employers with verified professionals across Nigeria.
               </p>
             </div>
 

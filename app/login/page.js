@@ -26,7 +26,7 @@ export default function LoginPage() {
     }
     if (params.get("expired") === "1") {
       setNotice(
-        "Your session expired, so we signed you out for safety. Log in again to pick up where you left off — anything you were writing in a form is kept in that tab."
+        "Your session expired, so we signed you out for safety. Log in again to pick up where you left off — anything you were writing in a form is kept in that tab.",
       );
     }
   }, []);
@@ -44,7 +44,8 @@ export default function LoginPage() {
   function validate() {
     const errs = {};
     if (!EMAIL_RE.test(email.trim())) {
-      errs.email = "Enter a valid email address — it should look like you@example.com.";
+      errs.email =
+        "Enter a valid email address — it should look like you@example.com.";
     }
     if (!password) {
       errs.password = "Enter your password.";
@@ -65,14 +66,15 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Login failed. Please try again.");
+      if (!res.ok)
+        throw new Error(data.error || "Login failed. Please try again.");
       router.push(next);
       router.refresh();
     } catch (err) {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy(false);
@@ -99,7 +101,9 @@ export default function LoginPage() {
               }}
               placeholder="you@example.com"
             />
-            {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
+            {fieldErrors.email && (
+              <p className="field-error">{fieldErrors.email}</p>
+            )}
           </div>
           <div className="field">
             <label htmlFor="password">Password</label>
@@ -114,10 +118,16 @@ export default function LoginPage() {
                 setFieldErrors((f) => ({ ...f, password: undefined }));
               }}
             />
-            {fieldErrors.password && <p className="field-error">{fieldErrors.password}</p>}
+            {fieldErrors.password && (
+              <p className="field-error">{fieldErrors.password}</p>
+            )}
           </div>
           {error && <p className="alert alert-error">{error}</p>}
-          <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+          <button
+            type="submit"
+            className="btn btn-primary btn-block"
+            disabled={busy}
+          >
             {busy ? "Logging in…" : "Log in"}
           </button>
           <p className="form-foot">

@@ -30,7 +30,10 @@ export default function Loading() {
             <div className="skel skel-pill" />
           </div>
         </div>
-        <p className="skel-note">Loading… if this takes a while, your connection may be slow — the page will appear as soon as it can.</p>
+        <p className="skel-note">
+          Loading… if this takes a while, your connection may be slow — the page
+          will appear as soon as it can.
+        </p>
       </div>
     </section>
   );

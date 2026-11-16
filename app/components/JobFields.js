@@ -11,13 +11,16 @@ const TYPES = ["Full-time", "Contract", "Part-time"];
 export function validateJobForm(form) {
   const errs = {};
   if (form.title.trim().length < 3) {
-    errs.title = "Give the role a clear title — at least 3 characters, e.g. “Site Mechanical Engineer”.";
+    errs.title =
+      "Give the role a clear title — at least 3 characters, e.g. “Site Mechanical Engineer”.";
   }
   if (!form.location.trim()) {
-    errs.location = "Add where the job is based, e.g. “Lagos, Nigeria” — or “Remote”.";
+    errs.location =
+      "Add where the job is based, e.g. “Lagos, Nigeria” — or “Remote”.";
   }
   if (form.description.trim().length < 20) {
-    errs.description = "Describe the role in a sentence or two (at least 20 characters) so professionals know what the work is.";
+    errs.description =
+      "Describe the role in a sentence or two (at least 20 characters) so professionals know what the work is.";
   }
   return errs;
 }
@@ -27,7 +30,12 @@ export function validateJobForm(form) {
 // handler; `idPrefix` keeps element ids unique when both forms render
 // on the same page (the dashboard renders the post form and, while
 // editing, an edit form).
-export default function JobFields({ form, fieldErrors, update, idPrefix = "" }) {
+export default function JobFields({
+  form,
+  fieldErrors,
+  update,
+  idPrefix = "",
+}) {
   const id = (name) => `${idPrefix}job-${name}`;
   return (
     <>
@@ -41,12 +49,18 @@ export default function JobFields({ form, fieldErrors, update, idPrefix = "" }) 
           onChange={update("title")}
           placeholder="e.g. Site Mechanical Engineer"
         />
-        {fieldErrors.title && <p className="field-error">{fieldErrors.title}</p>}
+        {fieldErrors.title && (
+          <p className="field-error">{fieldErrors.title}</p>
+        )}
       </div>
       <div className="form-row">
         <div className="field">
           <label htmlFor={id("category")}>Category</label>
-          <select id={id("category")} value={form.category} onChange={update("category")}>
+          <select
+            id={id("category")}
+            value={form.category}
+            onChange={update("category")}
+          >
             {services.map((s) => (
               <option key={s.title} value={s.title}>
                 {s.title}
@@ -75,7 +89,9 @@ export default function JobFields({ form, fieldErrors, update, idPrefix = "" }) 
           onChange={update("location")}
           placeholder="e.g. Lagos, Nigeria"
         />
-        {fieldErrors.location && <p className="field-error">{fieldErrors.location}</p>}
+        {fieldErrors.location && (
+          <p className="field-error">{fieldErrors.location}</p>
+        )}
       </div>
       <div className="field">
         <label htmlFor={id("description")}>Description</label>
@@ -88,7 +104,9 @@ export default function JobFields({ form, fieldErrors, update, idPrefix = "" }) 
           onChange={update("description")}
           placeholder="What the role involves, responsibilities, duration…"
         />
-        {fieldErrors.description && <p className="field-error">{fieldErrors.description}</p>}
+        {fieldErrors.description && (
+          <p className="field-error">{fieldErrors.description}</p>
+        )}
       </div>
       <div className="field">
         <label htmlFor={id("requirements")}>Requirements (optional)</label>

@@ -53,8 +53,10 @@ function avatarHue(name) {
 
 function statusClass(status) {
   const s = String(status || "").toLowerCase();
-  if (s.includes("shortlist") || s.includes("interview")) return "pill pill-green";
-  if (s.includes("hire") || s.includes("offer") || s.includes("accept")) return "pill pill-solid";
+  if (s.includes("shortlist") || s.includes("interview"))
+    return "pill pill-green";
+  if (s.includes("hire") || s.includes("offer") || s.includes("accept"))
+    return "pill pill-solid";
   if (s.includes("reject") || s.includes("decline")) return "pill pill-red";
   return "pill pill-amber";
 }
@@ -64,8 +66,10 @@ function statusClass(status) {
 // only names it.
 function JobStatusChip({ job }) {
   const state = jobState(job);
-  if (state === "closed") return <span className="pill pill-amber">Closed</span>;
-  if (state === "deleted") return <span className="pill pill-red">Deleted</span>;
+  if (state === "closed")
+    return <span className="pill pill-amber">Closed</span>;
+  if (state === "deleted")
+    return <span className="pill pill-red">Deleted</span>;
   return <span className="pill pill-green">Open</span>;
 }
 
@@ -79,7 +83,14 @@ function ProfileRow({ label, value }) {
   );
 }
 
-function KpiCard({ label, value, decimals = 0, suffix = "", hint, tone = "green" }) {
+function KpiCard({
+  label,
+  value,
+  decimals = 0,
+  suffix = "",
+  hint,
+  tone = "green",
+}) {
   return (
     <div className={`kpi-card kpi-${tone}`}>
       <span className="kpi-dot" aria-hidden="true" />
@@ -125,7 +136,9 @@ export default async function DashboardPage() {
     // validating (expired, tampered, user deleted) means the session
     // ended, so the login page says so and offers the way back. Same
     // redirects as the old raw-cookie check, derived from the reason.
-    redirect(reason === "no-token" ? "/login" : "/login?expired=1&next=/dashboard");
+    redirect(
+      reason === "no-token" ? "/login" : "/login?expired=1&next=/dashboard",
+    );
   }
 
   const isEmployer = user.role === "employer";
@@ -203,9 +216,13 @@ async function ProfessionalDashboard({ user }) {
   ]);
 
   const employers = new Set(applications.map((a) => a.companyName)).size;
-  const thisMonth = applications.filter((a) => withinDays(a.createdAt, 30)).length;
+  const thisMonth = applications.filter((a) =>
+    withinDays(a.createdAt, 30),
+  ).length;
   const appliedJobIds = new Set(applications.map((a) => a.jobId));
-  const freshRoles = allJobs.filter((j) => !appliedJobIds.has(j.id)).slice(0, 3);
+  const freshRoles = allJobs
+    .filter((j) => !appliedJobIds.has(j.id))
+    .slice(0, 3);
 
   const profileFields = [
     user.name,
@@ -219,22 +236,33 @@ async function ProfessionalDashboard({ user }) {
     user.summary,
   ];
   const filled = profileFields.filter(
-    (v) => v !== null && v !== undefined && String(v).trim() !== ""
+    (v) => v !== null && v !== undefined && String(v).trim() !== "",
   ).length;
   const completeness = Math.round((filled / profileFields.length) * 100);
 
   return (
     <>
       <div className="kpi-row">
-        <KpiCard label="Applications sent" value={applications.length} tone="green" />
+        <KpiCard
+          label="Applications sent"
+          value={applications.length}
+          tone="green"
+        />
         <KpiCard label="Employers reached" value={employers} tone="navy" />
         <KpiCard
           label="Applied in last 30 days"
           value={thisMonth}
           tone="amber"
-          hint={thisMonth > 0 ? "Keep the momentum going" : "New roles land weekly"}
+          hint={
+            thisMonth > 0 ? "Keep the momentum going" : "New roles land weekly"
+          }
         />
-        <KpiCard label="Profile strength" value={completeness} suffix="%" tone="green" />
+        <KpiCard
+          label="Profile strength"
+          value={completeness}
+          suffix="%"
+          tone="green"
+        />
       </div>
 
       <div className="dash2-grid">
@@ -309,8 +337,6 @@ async function ProfessionalDashboard({ user }) {
               </div>
             </div>
           )}
-
-          
         </div>
 
         <aside className="dash2-side">
@@ -349,10 +375,10 @@ async function EmployerDashboard({ user }) {
     byJob.get(application.jobId).push(application);
   }
 
-  const newThisWeek = applications.filter((a) => withinDays(a.createdAt, 7)).length;
-  const avgPerJob = jobs.length
-    ? applications.length / jobs.length
-    : 0;
+  const newThisWeek = applications.filter((a) =>
+    withinDays(a.createdAt, 7),
+  ).length;
+  const avgPerJob = jobs.length ? applications.length / jobs.length : 0;
   // "Active" means open: closed and deleted jobs still list below with
   // their applications, but they are not live posts.
   const openJobs = jobs.filter((job) => jobState(job) === "open").length;
@@ -362,12 +388,20 @@ async function EmployerDashboard({ user }) {
     <>
       <div className="kpi-row">
         <KpiCard label="Active job posts" value={openJobs} tone="navy" />
-        <KpiCard label="Total applicants" value={applications.length} tone="green" />
+        <KpiCard
+          label="Total applicants"
+          value={applications.length}
+          tone="green"
+        />
         <KpiCard
           label="New applicants · 7 days"
           value={newThisWeek}
           tone="amber"
-          hint={newThisWeek > 0 ? "Your pipeline is moving" : "Share your roles to get seen"}
+          hint={
+            newThisWeek > 0
+              ? "Your pipeline is moving"
+              : "Share your roles to get seen"
+          }
         />
         <KpiCard
           label="Avg applicants per job"
@@ -388,7 +422,9 @@ async function EmployerDashboard({ user }) {
               <li key={application.id} className="recent-item">
                 <span
                   className="avatar"
-                  style={{ backgroundColor: `hsl(${avatarHue(application.applicantName)} 45% 38%)` }}
+                  style={{
+                    backgroundColor: `hsl(${avatarHue(application.applicantName)} 45% 38%)`,
+                  }}
                   aria-hidden="true"
                 >
                   {initials(application.applicantName)}
@@ -402,7 +438,9 @@ async function EmployerDashboard({ user }) {
                       : ""}
                   </span>
                 </div>
-                <span className="job-date">{formatDate(application.createdAt)}</span>
+                <span className="job-date">
+                  {formatDate(application.createdAt)}
+                </span>
               </li>
             ))}
           </ul>
@@ -420,8 +458,8 @@ async function EmployerDashboard({ user }) {
             </div>
             {jobs.length === 0 ? (
               <p>
-                No jobs posted yet. Use the form to publish your first role —
-                it will appear on the Jobs page immediately.
+                No jobs posted yet. Use the form to publish your first role — it
+                will appear on the Jobs page immediately.
               </p>
             ) : (
               <ul className="dash-list">
@@ -452,14 +490,18 @@ async function EmployerDashboard({ user }) {
                           <li key={application.id}>
                             <span
                               className="avatar avatar-sm"
-                              style={{ backgroundColor: `hsl(${avatarHue(application.applicantName)} 45% 38%)` }}
+                              style={{
+                                backgroundColor: `hsl(${avatarHue(application.applicantName)} 45% 38%)`,
+                              }}
                               aria-hidden="true"
                             >
                               {initials(application.applicantName)}
                             </span>
                             <div>
                               <strong>
-                                <Link href={`/professionals/${application.userId}`}>
+                                <Link
+                                  href={`/professionals/${application.userId}`}
+                                >
                                   {application.applicantName}
                                 </Link>
                               </strong>
@@ -485,7 +527,6 @@ async function EmployerDashboard({ user }) {
               </ul>
             )}
           </div>
-          
         </div>
 
         <aside className="dash2-side">

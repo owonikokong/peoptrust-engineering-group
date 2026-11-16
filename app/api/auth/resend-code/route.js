@@ -14,14 +14,14 @@ export async function POST(request) {
   if (!sessionUser) {
     return NextResponse.json(
       { error: "Please log in first.", code: ERROR_CODES.NOT_SIGNED_IN },
-      { status: 401 }
+      { status: 401 },
     );
   }
   const user = await findUserById(sessionUser.id);
   if (!user) {
     return NextResponse.json(
       { error: "Account not found.", code: ERROR_CODES.ACCOUNT_NOT_FOUND },
-      { status: 404 }
+      { status: 404 },
     );
   }
   if (isVerified(user)) {
@@ -33,8 +33,11 @@ export async function POST(request) {
   const resend = resendStatus(user);
   if (!resend.allowed) {
     return NextResponse.json(
-      { error: `Please wait ${resend.waitSeconds} seconds before requesting another code.`, code: ERROR_CODES.RESEND_COOLDOWN },
-      { status: 429 }
+      {
+        error: `Please wait ${resend.waitSeconds} seconds before requesting another code.`,
+        code: ERROR_CODES.RESEND_COOLDOWN,
+      },
+      { status: 429 },
     );
   }
 

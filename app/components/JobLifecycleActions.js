@@ -40,7 +40,9 @@ export default function JobLifecycleActions({ job }) {
       if (!res.ok) {
         if (res.status === 401) {
           setErrorKind("expired");
-          throw new Error("Your session expired. Log in again and try once more.");
+          throw new Error(
+            "Your session expired. Log in again and try once more.",
+          );
         }
         // Classify by the API's stable error code (shared vocabulary in
         // lib/error-codes); fall back to the old message match only when
@@ -54,7 +56,10 @@ export default function JobLifecycleActions({ job }) {
             (!data.code && /already|open|closed/i.test(data.error || "")))
         ) {
           router.refresh();
-          throw new Error(data.error || "This job changed state. The card now shows its current state.");
+          throw new Error(
+            data.error ||
+              "This job changed state. The card now shows its current state.",
+          );
         }
         throw new Error(data.error || "Could not do that. Please try again.");
       }
@@ -65,7 +70,7 @@ export default function JobLifecycleActions({ job }) {
       setError(
         err.message === "Failed to fetch"
           ? "We could not reach PeopTrust — check your internet connection and try again."
-          : err.message
+          : err.message,
       );
     } finally {
       setBusy("");
@@ -125,8 +130,8 @@ export default function JobLifecycleActions({ job }) {
       {confirmingDelete && (
         <div className="job-actions job-action-confirm">
           <span>
-            Delete this job? It will leave the Jobs page, but its
-            applications stay visible here.
+            Delete this job? It will leave the Jobs page, but its applications
+            stay visible here.
           </span>
           <button
             type="button"
@@ -152,7 +157,9 @@ export default function JobLifecycleActions({ job }) {
           <p>{error}</p>
           {errorKind === "expired" && (
             <p className="success-actions">
-              <Link href="/login?expired=1&next=/dashboard">Log in again to continue</Link>
+              <Link href="/login?expired=1&next=/dashboard">
+                Log in again to continue
+              </Link>
             </p>
           )}
         </div>

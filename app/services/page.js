@@ -15,9 +15,9 @@ export default function ServicesPage() {
           <p className="eyebrow">Our services</p>
           <h1>Technical capability when you need it</h1>
           <p className="lead">
-            Six service areas for Nigerian construction, industrial,
-            mechanical, electrical and technical work — delivered through
-            verified professionals and suppliers across Nigeria.
+            Six service areas for Nigerian construction, industrial, mechanical,
+            electrical and technical work — delivered through verified
+            professionals and suppliers across Nigeria.
           </p>
         </div>
       </section>
@@ -26,7 +26,11 @@ export default function ServicesPage() {
         <div className="container">
           <div className="grid grid-3">
             {services.map((service) => (
-              <article data-reveal className="card service-card" key={service.title}>
+              <article
+                data-reveal
+                className="card service-card"
+                key={service.title}
+              >
                 <img
                   className="service-img"
                   src={service.image}
@@ -58,13 +62,12 @@ export default function ServicesPage() {
             references guidance from the Standards Organisation of Nigeria
             (SON), the Council for the Regulation of Engineering in Nigeria
             (COREN) and the Nigerian Society of Engineers (NSE), alongside
-            international standards from the American Welding Society (AWS),
-            the American Society of Mechanical Engineers (ASME) and the
-            International Organization for Standardization (ISO) for welding
-            and mechanical work. Professionals list certifications on their
-            profiles — ask which standards apply to your job, and settle
-            the standards, safety practice and inspection before work
-            starts.
+            international standards from the American Welding Society (AWS), the
+            American Society of Mechanical Engineers (ASME) and the
+            International Organization for Standardization (ISO) for welding and
+            mechanical work. Professionals list certifications on their profiles
+            — ask which standards apply to your job, and settle the standards,
+            safety practice and inspection before work starts.
           </p>
           <div className="points">
             <span>Ask which standards apply</span>
@@ -79,9 +82,9 @@ export default function ServicesPage() {
           <p className="eyebrow">Before work starts</p>
           <h2>Settle the details in your discussion</h2>
           <p className="lead">
-            PeopTrust connects employers and professionals; the agreement
-            itself is yours. Before work starts, settle these points with
-            the professional or team you hire:
+            PeopTrust connects employers and professionals; the agreement itself
+            is yours. Before work starts, settle these points with the
+            professional or team you hire:
           </p>
           <div className="grid grid-2">
             <article data-reveal className="card">
@@ -121,51 +124,48 @@ export default function ServicesPage() {
               <p>
                 Trade or skill area, key skills, years of experience,
                 availability, a professional summary, previous experience,
-                certifications and a CV link — the details an employer
-                needs to judge fit before contact.
+                certifications and a CV link — the details an employer needs to
+                judge fit before contact.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>What do employers share when they post a role?</h3>
               <p>
-                Employers share company name, industry, company size,
-                location and a company description, plus a contact
-                person. Employers post the roles and projects they need
-                filled.
+                Employers share company name, industry, company size, location
+                and a company description, plus a contact person. Employers post
+                the roles and projects they need filled.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>How does hiring work on PeopTrust?</h3>
               <p>
-                In three steps: create a profile or post a job, get
-                matched with verified professionals whose skills fit the
-                work, then work and deliver with clear requirements and
-                safe practice.{" "}
+                In three steps: create a profile or post a job, get matched with
+                verified professionals whose skills fit the work, then work and
+                deliver with clear requirements and safe practice.{" "}
                 <Link href="/register">Create your account</Link> to start.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>Which industries does PeopTrust serve?</h3>
               <p>
-                Construction, Manufacturing, Energy &amp; Power, Oil &amp;
-                Gas, Civil Infrastructure, and Facilities &amp;
-                Maintenance — the six industries employers select when
-                they join.
+                Construction, Manufacturing, Energy &amp; Power, Oil &amp; Gas,
+                Civil Infrastructure, and Facilities &amp; Maintenance — the six
+                industries employers select when they join.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>Where in Nigeria does PeopTrust work?</h3>
               <p>
-                PeopTrust covers Nigeria. Featured assignments on this
-                site span Lagos, Abuja, Port Harcourt and Ogun.{" "}
+                PeopTrust covers Nigeria. Featured assignments on this site span
+                Lagos, Abuja, Port Harcourt and Ogun.{" "}
                 <Link href="/projects">See the featured assignments</Link>.
               </p>
             </article>
             <article data-reveal className="card">
               <h3>How much does it cost?</h3>
               <p>
-                PeopTrust publishes no prices on this site. Project
-                pricing is discussed per project —{" "}
+                PeopTrust publishes no prices on this site. Project pricing is
+                discussed per project —{" "}
                 <Link href="/contact">contact the team</Link> with your
                 requirements.
               </p>
@@ -175,8 +175,8 @@ export default function ServicesPage() {
             className="text-link"
             href="/guides/how-to-hire-welders-in-nigeria"
           >
-            Read the guide: How to Hire Welders for an Industrial Project
-            in Nigeria →
+            Read the guide: How to Hire Welders for an Industrial Project in
+            Nigeria →
           </Link>
         </div>
       </section>
