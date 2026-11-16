@@ -1,6 +1,37 @@
 import Link from "next/link";
+import localFont from "next/font/local";
 import "./globals.css";
 import { services } from "../lib/data";
+import AuthNav from "./components/AuthNav";
+import OfflineBanner from "./components/OfflineBanner";
+import RevealInit from "./components/RevealInit";
+
+const plexSans = localFont({
+  src: [
+    { path: "./fonts/IBMPlexSans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBMPlexSans-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/IBMPlexSans-600.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const plexMono = localFont({
+  src: [
+    { path: "./fonts/IBMPlexMono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBMPlexMono-500.woff2", weight: "500", style: "normal" },
+  ],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+// Nonce-based CSP (middleware.js) can only stamp a per-request nonce
+// onto scripts in dynamically rendered HTML — a prerendered static page
+// would ship scripts with no nonce and the browser would block them
+// all. So every page renders on request. The pages are light and the
+// data-driven ones were dynamic already; this is the accepted cost of
+// dropping script-src 'unsafe-inline' (audit report 3, Priority 1).
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "PeopTrust Engineering Group",
@@ -28,8 +59,10 @@ const quickLinks = [
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
+        <RevealInit />
+        <OfflineBanner />
         <header className="site-header">
           <div className="container header-inner">
             <Link href="/" className="brand">
@@ -49,10 +82,7 @@ export default function RootLayout({ children }) {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/login">Login</Link>
-              <Link href="/register" className="nav-cta">
-                Get Started
-              </Link>
+              <AuthNav />
             </nav>
           </div>
         </header>

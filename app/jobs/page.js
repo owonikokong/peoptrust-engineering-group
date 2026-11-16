@@ -1,19 +1,12 @@
 import Link from "next/link";
 import { listJobs } from "../../lib/store";
+import JobsExplorer from "../components/JobsExplorer";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Jobs — PeopTrust Engineering Group",
 };
-
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default async function JobsPage() {
   const jobs = await listJobs();
@@ -22,12 +15,20 @@ export default async function JobsPage() {
     <>
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Jobs</p>
-          <h1>Open engineering roles.</h1>
-          <p className="lead">
-            Roles posted by employers on the PeopTrust marketplace. Apply with
-            your professional account.
-          </p>
+          <div className="jobs-video-wrap" style={{ marginTop: 8 }}>
+            <video
+              className="jobs-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/jobs/hero-poster.webp"
+              aria-label="Animation showing example engineering roles on the PeopTrust marketplace"
+            >
+              <source src="/jobs/hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
         </div>
       </section>
 
@@ -35,6 +36,13 @@ export default async function JobsPage() {
         <div className="container">
           {jobs.length === 0 ? (
             <div className="card empty-card">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/jobs/empty-state.webp"
+                alt=""
+                className="empty-img"
+                loading="lazy"
+              />
               <h3>No jobs posted yet</h3>
               <p>
                 Employers are joining the marketplace. Check back soon — or, if
@@ -45,30 +53,47 @@ export default async function JobsPage() {
               </Link>
             </div>
           ) : (
-            <div className="job-list">
-              {jobs.map((job) => (
-                <article key={job.id} className="card job-card">
-                  <div className="job-card-main">
-                    <h3>
-                      <Link href={`/jobs/${job.id}`}>{job.title}</Link>
-                    </h3>
-                    <p className="job-company">{job.companyName}</p>
-                    <div className="tag-row">
-                      <span className="tag">{job.category}</span>
-                      <span className="tag tag-soft">{job.location}</span>
-                      <span className="tag tag-soft">{job.type}</span>
-                    </div>
-                  </div>
-                  <div className="job-card-side">
-                    <span className="job-date">{formatDate(job.createdAt)}</span>
-                    <Link href={`/jobs/${job.id}`} className="card-link">
-                      View role →
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <JobsExplorer jobs={jobs} />
           )}
+        </div>
+      </section>
+
+      <section className="section section-tight">
+        <div className="container jobs-cta">
+          <div data-reveal className="card jobs-cta-card">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/jobs/job-seeker.webp"
+              alt=""
+              className="jobs-cta-img"
+              loading="lazy"
+            />
+            <h3>Looking for work?</h3>
+            <p>
+              Create a professional account so employers can find you — and so
+              you can apply the moment a role opens.
+            </p>
+            <Link href="/register" className="btn btn-primary">
+              Create your account
+            </Link>
+          </div>
+          <div data-reveal className="card jobs-cta-card">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/jobs/hire-handshake.webp"
+              alt=""
+              className="jobs-cta-img"
+              loading="lazy"
+            />
+            <h3>Hiring engineers?</h3>
+            <p>
+              Post a role on the marketplace and reach verified engineering
+              professionals across Nigeria.
+            </p>
+            <Link href="/register" className="btn btn-ghost">
+              Post a job
+            </Link>
+          </div>
         </div>
       </section>
     </>

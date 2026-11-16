@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1200" height="540" fill="#F4F6F8"/>
+  <text x="60" y="52" font-size="28" font-weight="bold" fill="#0B2A4A">Choose the hiring route</text>
+  <rect x="450" y="80" width="300" height="64" rx="12" fill="#0B2A4A"/>
+  <text x="600" y="120" font-size="24" font-weight="bold" fill="#FFFFFF" text-anchor="middle">What does the job need?</text>
+  <path d="M600 144 V240 M600 240 H220 M600 240 H600 M600 240 H980 M220 240 V350 M600 240 V350 M980 240 V350" stroke="#0B2A4A" stroke-width="2" fill="none"/>
+  <text x="220" y="272" font-size="17" fill="#3D4F61" text-anchor="middle">Defined scope,</text>
+  <text x="220" y="294" font-size="17" fill="#3D4F61" text-anchor="middle">you supervise</text>
+  <text x="600" y="272" font-size="17" fill="#3D4F61" text-anchor="middle">One party owns</text>
+  <text x="600" y="294" font-size="17" fill="#3D4F61" text-anchor="middle">delivery</text>
+  <text x="980" y="272" font-size="17" fill="#3D4F61" text-anchor="middle">Crew needed fast,</text>
+  <text x="980" y="294" font-size="17" fill="#3D4F61" text-anchor="middle">papers handled</text>
+  <rect x="60" y="360" width="320" height="80" rx="12" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="220" y="396" font-size="22" font-weight="bold" fill="#0B2A4A" text-anchor="middle">Hire individual welders</text>
+  <text x="220" y="424" font-size="16" fill="#3D4F61" text-anchor="middle">you hold procedure + inspection</text>
+  <rect x="440" y="360" width="320" height="80" rx="12" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="600" y="396" font-size="22" font-weight="bold" fill="#0B2A4A" text-anchor="middle">Hire a contractor</text>
+  <text x="600" y="424" font-size="16" fill="#3D4F61" text-anchor="middle">crew, equipment, warranty</text>
+  <rect x="820" y="360" width="320" height="80" rx="12" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="980" y="396" font-size="22" font-weight="bold" fill="#0B2A4A" text-anchor="middle">Hire a manpower supplier</text>
+  <text x="980" y="424" font-size="16" fill="#3D4F61" text-anchor="middle">vetted crew, mobilised + documented</text>
+  <rect x="60" y="472" width="1080" height="4" fill="#E8A020"/>
+</svg>

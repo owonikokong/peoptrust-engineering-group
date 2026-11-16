@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0B2A4A"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="500" fill="#F4F6F8"/>
+  <text x="60" y="52" font-size="28" font-weight="bold" fill="#0B2A4A">Evidence in, one decision out</text>
+  <rect x="60" y="100" width="380" height="56" rx="10" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="250" y="135" font-size="20" fill="#0B2A4A" text-anchor="middle">Welding Procedure Specification (WPS)</text>
+  <rect x="60" y="170" width="380" height="56" rx="10" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="250" y="205" font-size="20" fill="#0B2A4A" text-anchor="middle">Welder qualification (WPQ)</text>
+  <rect x="60" y="240" width="380" height="56" rx="10" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="250" y="275" font-size="20" fill="#0B2A4A" text-anchor="middle">Inspection reports</text>
+  <rect x="60" y="310" width="380" height="56" rx="10" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="250" y="345" font-size="20" fill="#0B2A4A" text-anchor="middle">Material certificates</text>
+  <rect x="60" y="380" width="380" height="56" rx="10" fill="#FFFFFF" stroke="#0B2A4A" stroke-width="2"/>
+  <text x="250" y="415" font-size="20" fill="#0B2A4A" text-anchor="middle">Client references</text>
+  <line x1="440" y1="128" x2="806" y2="252" stroke="#0B2A4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="198" x2="806" y2="258" stroke="#0B2A4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="268" x2="806" y2="268" stroke="#0B2A4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="338" x2="806" y2="278" stroke="#0B2A4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="408" x2="806" y2="284" stroke="#0B2A4A" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="820" y="215" width="320" height="106" rx="12" fill="#E8A020"/>
+  <text x="980" y="264" font-size="28" font-weight="bold" fill="#0B2A4A" text-anchor="middle">Award decision</text>
+  <text x="980" y="294" font-size="16" fill="#0B2A4A" text-anchor="middle">evidence clears the bar</text>
+</svg>
