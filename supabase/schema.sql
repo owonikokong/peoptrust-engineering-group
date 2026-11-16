@@ -47,6 +47,8 @@ create table if not exists public.jobs (
   type text not null,
   description text not null,
   requirements text,
+  status text not null default 'open',
+  constraint jobs_status_check check (status in ('open', 'closed', 'deleted')),
   created_at timestamptz not null default now()
 );
 
@@ -56,6 +58,7 @@ create table if not exists public.applications (
   user_id uuid not null references public.users (id) on delete cascade,
   cover_note text,
   status text not null default 'Submitted',
+  constraint applications_status_check check (status in ('Submitted')),
   created_at timestamptz not null default now(),
   unique (job_id, user_id)
 );
@@ -84,6 +87,34 @@ alter table public.users add column if not exists verify_sent_at timestamptz;
 alter table public.users add column if not exists previous_experience text;
 alter table public.users add column if not exists certifications text;
 alter table public.users add column if not exists cv_url text;
+
+-- ---------------------------------------------------------------------------
+-- Migration for the state-machines Step 2 release (safe to run more than
+-- once; apply in the Supabase dashboard SQL Editor — NOT applied by any
+-- deploy). It must run BEFORE the job close/edit/delete API routes ship:
+-- the lifecycle transitions write jobs.status, which does not exist in
+-- databases created from the earlier schema.
+--
+-- 1. jobs.status: new column, DEFAULT 'open', so every existing job reads
+--    as open — exactly what each job effectively is today. No row changes
+--    meaning.
+-- 2. jobs_status_check: locks the lifecycle vocabulary to open / closed /
+--    deleted (JOB_STATUSES in lib/states.js).
+-- 3. applications_status_check: locks the application vocabulary to the
+--    only value the app ever writes, 'Submitted' (APPLICATION_STATUSES in
+--    lib/states.js). Adding a CHECK validates existing rows; all existing
+--    rows hold 'Submitted', so this succeeds. Employer review transitions
+--    extend the list later, in the same migration style.
+-- ---------------------------------------------------------------------------
+alter table public.jobs add column if not exists status text not null default 'open';
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'jobs_status_check') then
+    alter table public.jobs add constraint jobs_status_check check (status in ('open', 'closed', 'deleted'));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'applications_status_check') then
+    alter table public.applications add constraint applications_status_check check (status in ('Submitted'));
+  end if;
+end $$;
 
 -- ============================================================
 -- Rate limiting (auth endpoints): one row per hit, counted per

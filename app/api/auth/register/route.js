@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { rateLimit, tooManyRequests } from "../../../../lib/ratelimit";
-import { createUser, findUserByEmail, publicUser, updateUserFields } from "../../../../lib/store";
+import { createUser, findUserByEmail, publicUser } from "../../../../lib/store";
 import { hashPassword, setSessionCookie } from "../../../../lib/auth";
-import { newCodeFields } from "../../../../lib/verify";
+import { issueVerificationCode } from "../../../../lib/transitions";
 import { sendVerificationEmail } from "../../../../lib/mail";
+import { ERROR_CODES } from "../../../../lib/error-codes";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function bad(message) {
-  return NextResponse.json({ error: message, code: "VALIDATION" }, { status: 400 });
+  return NextResponse.json({ error: message, code: ERROR_CODES.VALIDATION }, { status: 400 });
 }
 
 function required(body, field, label) {
@@ -26,7 +27,7 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body.", code: "INVALID_BODY" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
   }
 
   const { role, name, email, password } = body || {};
@@ -120,7 +121,7 @@ export async function POST(request) {
   const existing = await findUserByEmail(email);
   if (existing) {
     return NextResponse.json(
-      { error: "An account with this email already exists. Please log in.", code: "EMAIL_TAKEN" },
+      { error: "An account with this email already exists. Please log in.", code: ERROR_CODES.EMAIL_TAKEN },
       { status: 409 }
     );
   }
@@ -128,8 +129,7 @@ export async function POST(request) {
   const user = await createUser({ ...fields, emailVerified: false });
 
   // Issue the per-user confirmation code and email it.
-  const { code, fields: codeFields } = newCodeFields(user.id);
-  await updateUserFields(user.id, codeFields);
+  const { code } = await issueVerificationCode(user);
   const mail = await sendVerificationEmail({
     email: user.email,
     name: user.name,
