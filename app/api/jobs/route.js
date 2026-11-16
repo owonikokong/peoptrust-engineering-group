@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { createJob, listJobs } from "../../../lib/store";
+import { createJob, isVerified, listJobs } from "../../../lib/store";
 import { getSessionUser } from "../../../lib/auth";
+import { rateLimit, tooManyRequests } from "../../../lib/ratelimit";
 import { services } from "../../../lib/data";
 
 const CATEGORIES = services.map((s) => s.title);
@@ -12,6 +13,10 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  // Anti-spam brake on job posting (audit pass): 10 posts per IP per 2 min
+  // is far above any real employer, far below a bot.
+  const rl = await rateLimit(request, "post-job", 10);
+  if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const user = await getSessionUser();
   if (!user) {
     return NextResponse.json({ error: "Please log in first." }, { status: 401 });
@@ -19,6 +24,12 @@ export async function POST(request) {
   if (user.role !== "employer") {
     return NextResponse.json(
       { error: "Only employers can post jobs." },
+      { status: 403 }
+    );
+  }
+  if (!isVerified(user)) {
+    return NextResponse.json(
+      { error: "Please verify your email address before posting a job. Enter the 6-digit code sent to your email on the verification page." },
       { status: 403 }
     );
   }

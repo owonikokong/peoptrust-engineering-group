@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
+import { rateLimit, tooManyRequests } from "../../../../lib/ratelimit";
 import { findUserByEmail, publicUser } from "../../../../lib/store";
 import { setSessionCookie, verifyPassword } from "../../../../lib/auth";
 
 export async function POST(request) {
+  const rl = await rateLimit(request, "login");
+  if (!rl.ok) return tooManyRequests(rl.retryAfter);
   let body;
   try {
     body = await request.json();

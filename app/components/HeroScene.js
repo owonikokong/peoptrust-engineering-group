@@ -3,6 +3,15 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import {
+  BloomEffect,
+  EffectComposer,
+  EffectPass,
+  RenderPass,
+  ToneMappingEffect,
+  ToneMappingMode,
+  VignetteEffect,
+} from "postprocessing";
 
 /**
  * Procedural gear train built entirely from code — no model files.
@@ -134,6 +143,7 @@ export default function HeroScene() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 0.9;
+      renderer.setClearColor(0x000000, 0);
 
       const scene = new THREE.Scene();
 
@@ -226,21 +236,64 @@ export default function HeroScene() {
       train.rotation.set(-0.12, -0.35, 0.06);
       scene.add(train);
 
+      // Post-processing (pmndrs/postprocessing): subtle HDR bloom on the
+      // metal highlights + a gentle vignette, ACES tone mapping applied as
+      // the final pass. Any failure leaves `composer` null and the plain
+      // renderer path below is used instead — the hero never breaks.
+      let composer = null;
+      try {
+        composer = new EffectComposer(renderer, {
+          frameBufferType: THREE.HalfFloatType,
+          multisampling: 4,
+        });
+        composer.addPass(new RenderPass(scene, camera));
+        composer.addPass(
+          new EffectPass(
+            camera,
+            new BloomEffect({
+              mipmapBlur: true,
+              luminanceThreshold: 0.9,
+              luminanceSmoothing: 0.25,
+              intensity: 0.32,
+              radius: 0.5,
+            }),
+            new VignetteEffect({ offset: 0.24, darkness: 0.52 })
+          )
+        );
+        composer.addPass(
+          new EffectPass(
+            camera,
+            new ToneMappingEffect({ mode: ToneMappingMode.ACES_FILMIC })
+          )
+        );
+        // The composer's ACES pass reads brighter than three's material
+        // tone mapping at the same exposure, so pull the light down on
+        // this path only (fallback keeps the production lighting).
+        sun.intensity = 1.9;
+        scene.environmentIntensity = 0.75;
+      } catch {
+        composer = null;
+      }
+
       const BASE_SPEED = 0.12; // rad/s on the driver — slow and stately.
       const layout = () => {
         const w = canvas.clientWidth || canvas.parentElement.clientWidth;
         const h = canvas.clientHeight || canvas.parentElement.clientHeight;
         if (!w || !h) return;
         renderer.setSize(w, h, false);
+        // NB: EffectComposer has no setPixelRatio — it reads the renderer's
+        // pixel ratio inside setSize. (Calling it threw and killed the
+        // whole scene via the outer catch; that was the invisible-hero bug.)
+        if (composer) composer.setSize(w, h);
         camera.aspect = w / h;
         if (w >= 900) {
           // Wide screens: composition sits right of the headline.
           train.position.set(2.5, 0.1, 0);
-          renderer.toneMappingExposure = 0.9;
+          renderer.toneMappingExposure = composer ? 0.62 : 0.9;
         } else {
           // Narrow screens: centred, further back and dimmer behind text.
           train.position.set(0, 0.35, -1.2);
-          renderer.toneMappingExposure = 0.65;
+          renderer.toneMappingExposure = composer ? 0.45 : 0.65;
         }
         camera.updateProjectionMatrix();
       };
@@ -287,7 +340,8 @@ export default function HeroScene() {
         parallax.y += (parallax.ty - parallax.y) * 0.05;
         train.rotation.y = -0.35 + parallax.x;
         train.rotation.x = -0.12 + parallax.y;
-        renderer.render(scene, camera);
+        if (composer) composer.render();
+        else renderer.render(scene, camera);
       };
 
       if (reducedMotion) {
@@ -317,6 +371,7 @@ export default function HeroScene() {
         });
         scene.environment?.dispose();
         pmrem.dispose();
+        composer?.dispose();
         renderer.dispose();
       };
     } catch {

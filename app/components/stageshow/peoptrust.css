@@ -1,0 +1,67 @@
+/* PeopTrust demo — scoped under .pt; kit styles are layered, these win. */
+.pt .ss-stage { background: #f6f6f2; overflow: hidden; }
+.pt-rest { position: absolute; left: 880px; top: 470px; width: 2px; height: 2px; }
+
+.pt .pt-window { position: absolute; left: 0; right: 0; top: 0; height: 756px; }
+
+/* navy sidebar, like the product */
+.pt .ss-window__side { background: #0b1f3a; }
+.pt-side { padding: 12px 14px 14px; display: flex; flex-direction: column; height: 100%; }
+.pt-wordmark { color: #fff; font-size: 17px; font-weight: 700; letter-spacing: 0.01em; padding: 0 8px 14px; }
+.pt-nav { display: flex; flex-direction: column; gap: 2px; }
+.pt-navitem { color: #a9bcd2; font-size: 13px; padding: 7px 10px; border-radius: 8px; }
+.pt-navitem[data-on="true"] { background: rgba(255, 255, 255, 0.13); color: #fff; font-weight: 600; }
+.pt-sidefoot { margin-top: auto; display: flex; flex-direction: column; gap: 7px; padding: 0 8px; opacity: 0.55; }
+
+/* content column */
+.pt .ss-window__main { background: #fbfbf8; }
+.pt-main { padding: 18px 22px 22px; }
+.pt-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.pt-title { font-size: 15px; font-weight: 600; color: var(--ss-text, #16283f); }
+.pt-postbtn { background: #0e7a4f; color: #fff; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 8px; transition: opacity 0.3s; }
+.pt-postbtn[data-hide] { opacity: 0.35; }
+
+.pt-kpis { display: flex; gap: 12px; margin-bottom: 14px; }
+.pt-kpi { flex: 1; background: #fff; border: 1px solid var(--ss-line); border-radius: 10px; padding: 10px 12px; }
+
+.pt-panel { background: #fff; border: 1px solid var(--ss-line); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+.pt-panelhead { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 2px; }
+.pt-paneltitle { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }
+.pt-count { font-size: 13px; font-weight: 700; color: #0e7a4f; font-variant-numeric: tabular-nums; }
+.pt .pt-panel .ss-row { border-top: 1px solid var(--ss-line); }
+.pt .pt-panel .ss-collapse:first-of-type .ss-row, .pt .pt-panel > .ss-row:first-of-type { border-top: none; }
+.pt-faint { color: var(--ss-text-3, #6b7d90); }
+.pt-justnow { font-size: 12px; color: #0e7a4f; font-weight: 600; }
+.pt-empty { display: block; font-size: 13px; color: var(--ss-text-3, #6b7d90); padding: 10px 0 12px; }
+
+/* verified = amber, the product's one amber use */
+.pt-verified { background: #f2a81d; color: #16283f; border-color: transparent; font-weight: 600; padding-right: 9px; }
+
+/* form */
+.pt-formpanel .ss-field { margin-bottom: 14px; }
+.pt-fieldlabel { font-size: 12px; font-weight: 600; color: var(--ss-text-2, #42586c); margin: 2px 0 6px; }
+.pt-seg { margin-bottom: 16px; }
+.pt-submit { display: inline-flex; align-items: center; justify-content: center; min-width: 124px; will-change: transform; background: #0e7a4f; color: #fff; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 9px; margin-top: 2px; }
+.pt-done { display: inline-flex; align-items: center; gap: 6px; }
+
+/* compact: one column, no sidebar, no KPI strip */
+.pt .ss-stage[data-layout="compact"] .ss-window__side { display: none; }
+.pt .ss-stage[data-layout="compact"] .pt-window { height: 796px; }
+.pt .ss-stage[data-layout="compact"] .pt-main { padding: 14px 14px 18px; }
+.pt .ss-stage[data-layout="compact"] .pt-kpis { display: none; }
+.pt .ss-stage[data-layout="compact"] .pt-rest { left: 300px; top: 520px; }
+
+/* form state pushes the panels past the window foot: clip at the window */
+.pt .ss-window__main { overflow: hidden; }
+
+/* compact rows: one trailing element each, so nothing crowds at 358px */
+.pt .ss-stage[data-layout="compact"] .pt-approw .ss-row__meta { display: none; }
+.pt .ss-stage[data-layout="compact"] .pt-jobrow .ss-badge { display: none; }
+.pt .ss-stage[data-layout="compact"] .pt-title { font-size: 14px; }
+
+/* Host-page collision guard: PeopTrust's scroll-reveal uses [data-reveal]
+   for its own fade-in, and the kit's Collapse uses data-reveal="drop"/"clip"
+   internally. The site's unlayered rule would hold every animated row at
+   opacity 0 forever. Hand opacity, transform and transition back to the
+   kit's cascade layer inside the stage. */
+.pt .ss-collapse[data-reveal] { opacity: revert-layer; transform: revert-layer; transition: revert-layer; }
