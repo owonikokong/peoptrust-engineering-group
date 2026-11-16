@@ -9,17 +9,17 @@ export async function POST(request, { params }) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const user = await getSessionUser();
   if (!user) {
-    return NextResponse.json({ error: "Please log in first." }, { status: 401 });
+    return NextResponse.json({ error: "Please log in first.", code: "NOT_SIGNED_IN" }, { status: 401 });
   }
   if (user.role !== "professional") {
     return NextResponse.json(
-      { error: "Only skilled professionals can apply for jobs." },
+      { error: "Only skilled professionals can apply for jobs.", code: "ROLE_FORBIDDEN" },
       { status: 403 }
     );
   }
   if (!isVerified(user)) {
     return NextResponse.json(
-      { error: "Please verify your email address before applying. Enter the 6-digit code sent to your email on the verification page." },
+      { error: "Please verify your email address before applying. Enter the 6-digit code sent to your email on the verification page.", code: "EMAIL_UNVERIFIED" },
       { status: 403 }
     );
   }
@@ -27,13 +27,13 @@ export async function POST(request, { params }) {
   const { id } = await params;
   const job = await getJob(id);
   if (!job) {
-    return NextResponse.json({ error: "This job no longer exists." }, { status: 404 });
+    return NextResponse.json({ error: "This job no longer exists.", code: "JOB_NOT_FOUND" }, { status: 404 });
   }
 
   const existing = await findApplication(user.id, job.id);
   if (existing) {
     return NextResponse.json(
-      { error: "You have already applied for this job." },
+      { error: "You have already applied for this job.", code: "ALREADY_APPLIED" },
       { status: 409 }
     );
   }

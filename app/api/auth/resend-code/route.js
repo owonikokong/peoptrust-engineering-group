@@ -6,7 +6,8 @@ import {
   isVerified,
   updateUserFields,
 } from "../../../../lib/store";
-import { newCodeFields, RESEND_COOLDOWN_MS } from "../../../../lib/verify";
+import { newCodeFields } from "../../../../lib/verify";
+import { resendStatus } from "../../../../lib/states";
 import { sendVerificationEmail } from "../../../../lib/mail";
 
 export async function POST(request) {
@@ -14,25 +15,30 @@ export async function POST(request) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
-    return NextResponse.json({ error: "Please log in first." }, { status: 401 });
+    return NextResponse.json(
+      { error: "Please log in first.", code: "NOT_SIGNED_IN" },
+      { status: 401 }
+    );
   }
   const user = await findUserById(sessionUser.id);
   if (!user) {
-    return NextResponse.json({ error: "Account not found." }, { status: 404 });
+    return NextResponse.json(
+      { error: "Account not found.", code: "ACCOUNT_NOT_FOUND" },
+      { status: 404 }
+    );
   }
   if (isVerified(user)) {
     return NextResponse.json({ verified: true });
   }
 
-  if (user.verifySentAt) {
-    const elapsed = Date.now() - new Date(user.verifySentAt).getTime();
-    if (elapsed < RESEND_COOLDOWN_MS) {
-      const wait = Math.ceil((RESEND_COOLDOWN_MS - elapsed) / 1000);
-      return NextResponse.json(
-        { error: `Please wait ${wait} seconds before requesting another code.` },
-        { status: 429 }
-      );
-    }
+  // One derivation of the resend-cooldown status (lib/states): same
+  // check, same wait computation, same message as the inline version.
+  const resend = resendStatus(user);
+  if (!resend.allowed) {
+    return NextResponse.json(
+      { error: `Please wait ${resend.waitSeconds} seconds before requesting another code.`, code: "RESEND_COOLDOWN" },
+      { status: 429 }
+    );
   }
 
   const { code, fields } = newCodeFields(user.id);

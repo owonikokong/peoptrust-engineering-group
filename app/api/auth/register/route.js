@@ -8,7 +8,7 @@ import { sendVerificationEmail } from "../../../../lib/mail";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function bad(message) {
-  return NextResponse.json({ error: message }, { status: 400 });
+  return NextResponse.json({ error: message, code: "VALIDATION" }, { status: 400 });
 }
 
 function required(body, field, label) {
@@ -26,7 +26,7 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body.", code: "INVALID_BODY" }, { status: 400 });
   }
 
   const { role, name, email, password } = body || {};
@@ -120,7 +120,7 @@ export async function POST(request) {
   const existing = await findUserByEmail(email);
   if (existing) {
     return NextResponse.json(
-      { error: "An account with this email already exists. Please log in." },
+      { error: "An account with this email already exists. Please log in.", code: "EMAIL_TAKEN" },
       { status: 409 }
     );
   }

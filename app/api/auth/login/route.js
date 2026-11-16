@@ -10,13 +10,13 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body.", code: "INVALID_BODY" }, { status: 400 });
   }
 
   const { email, password } = body || {};
   if (!email || !password) {
     return NextResponse.json(
-      { error: "Please enter your email and password." },
+      { error: "Please enter your email and password.", code: "VALIDATION" },
       { status: 400 }
     );
   }
@@ -24,7 +24,7 @@ export async function POST(request) {
   const user = await findUserByEmail(email);
   if (!user || !verifyPassword(password, user.passwordHash)) {
     return NextResponse.json(
-      { error: "Incorrect email or password." },
+      { error: "Incorrect email or password.", code: "BAD_CREDENTIALS" },
       { status: 401 }
     );
   }
