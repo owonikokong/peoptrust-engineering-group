@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getJob } from "../../../../../lib/store";
 import { getSessionUser } from "../../../../../lib/auth";
 import { rateLimit, tooManyRequests } from "../../../../../lib/ratelimit";
-import { canApply } from "../../../../../lib/states";
+import { canApply, jobState } from "../../../../../lib/states";
 import { submitApplication } from "../../../../../lib/transitions";
 import { ERROR_CODES } from "../../../../../lib/error-codes";
 
@@ -33,6 +33,19 @@ export async function POST(request, { params }) {
   const job = await getJob(id);
   if (!job) {
     return NextResponse.json({ error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND }, { status: 404 });
+  }
+
+  // Lifecycle gate: a closed job refuses new applications, and a
+  // deleted job does not exist publicly — same 404 as a missing job.
+  const state = jobState(job);
+  if (state === "deleted") {
+    return NextResponse.json({ error: "This job no longer exists.", code: ERROR_CODES.JOB_NOT_FOUND }, { status: 404 });
+  }
+  if (state === "closed") {
+    return NextResponse.json(
+      { error: "This job is closed and is no longer accepting applications.", code: ERROR_CODES.JOB_CLOSED },
+      { status: 409 }
+    );
   }
 
   let body = {};

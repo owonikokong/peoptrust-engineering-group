@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { findApplication, getJob } from "../../../lib/store";
 import { getSessionUser } from "../../../lib/auth";
+import { jobState } from "../../../lib/states";
 import ApplyForm from "../../components/ApplyForm";
 
 export const dynamic = "force-dynamic";
@@ -19,9 +20,15 @@ export default async function JobDetailPage({ params }) {
   const job = await getJob(id);
   if (!job) notFound();
 
+  // Lifecycle visibility: a deleted job does not exist publicly; a
+  // closed job still renders, with a notice and no apply form.
+  const state = jobState(job);
+  if (state === "deleted") notFound();
+  const closed = state === "closed";
+
   const user = await getSessionUser();
   const alreadyApplied =
-    user?.role === "professional"
+    !closed && user?.role === "professional"
       ? Boolean(await findApplication(user.id, job.id))
       : false;
 
@@ -36,6 +43,7 @@ export default async function JobDetailPage({ params }) {
           <span className="tag tag-soft">{job.location}</span>
           <span className="tag tag-soft">{job.type}</span>
           <span className="tag tag-soft">Posted {formatDate(job.createdAt)}</span>
+          {closed ? <span className="tag tag-soft">Closed</span> : null}
         </div>
 
         <div className="job-body">
@@ -50,29 +58,41 @@ export default async function JobDetailPage({ params }) {
         </div>
 
         <div className="card apply-card">
-          <h3>Apply for this role</h3>
-          {!user && (
+          {closed ? (
             <>
-              <p>You need a professional account to apply for jobs.</p>
-              <Link href="/login" className="btn btn-primary">
-                Log in to apply
-              </Link>{" "}
-              <Link href="/register" className="btn btn-outline">
-                Create account
-              </Link>
+              <h3>This role is closed</h3>
+              <p>
+                The employer has closed this role, so it is no longer
+                accepting applications.
+              </p>
             </>
-          )}
-          {user && user.role === "employer" && (
-            <p>Employer accounts cannot apply for jobs. Log in with a professional account to apply.</p>
-          )}
-          {user && user.role === "professional" && !alreadyApplied && (
-            <ApplyForm jobId={job.id} />
-          )}
-          {user && user.role === "professional" && alreadyApplied && (
-            <p className="alert alert-success">
-              You have already applied for this job. Track it in your{" "}
-              <Link href="/dashboard">dashboard</Link>.
-            </p>
+          ) : (
+            <>
+              <h3>Apply for this role</h3>
+              {!user && (
+                <>
+                  <p>You need a professional account to apply for jobs.</p>
+                  <Link href="/login" className="btn btn-primary">
+                    Log in to apply
+                  </Link>{" "}
+                  <Link href="/register" className="btn btn-outline">
+                    Create account
+                  </Link>
+                </>
+              )}
+              {user && user.role === "employer" && (
+                <p>Employer accounts cannot apply for jobs. Log in with a professional account to apply.</p>
+              )}
+              {user && user.role === "professional" && !alreadyApplied && (
+                <ApplyForm jobId={job.id} />
+              )}
+              {user && user.role === "professional" && alreadyApplied && (
+                <p className="alert alert-success">
+                  You have already applied for this job. Track it in your{" "}
+                  <Link href="/dashboard">dashboard</Link>.
+                </p>
+              )}
+            </>
           )}
         </div>
 

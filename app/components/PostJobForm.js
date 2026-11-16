@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { services } from "../../lib/data";
 import { ERROR_CODES } from "../../lib/error-codes";
+import JobFields, { validateJobForm } from "./JobFields";
 
-const TYPES = ["Full-time", "Contract", "Part-time"];
 const EMPTY_FORM = {
   title: "",
   category: services[0].title,
@@ -54,17 +54,9 @@ export default function PostJobForm() {
 
   // State 9 — inline validation: the message sits next to the field and
   // says how to fix it, not just that something is wrong somewhere.
+  // Rules shared with the edit form (JobFields).
   function validate() {
-    const errs = {};
-    if (form.title.trim().length < 3) {
-      errs.title = "Give the role a clear title — at least 3 characters, e.g. “Site Mechanical Engineer”.";
-    }
-    if (!form.location.trim()) {
-      errs.location = "Add where the job is based, e.g. “Lagos, Nigeria” — or “Remote”.";
-    }
-    if (form.description.trim().length < 20) {
-      errs.description = "Describe the role in a sentence or two (at least 20 characters) so professionals know what the work is.";
-    }
+    const errs = validateJobForm(form);
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
   }
@@ -124,75 +116,7 @@ export default function PostJobForm() {
 
   return (
     <form onSubmit={submit} noValidate>
-      <div className="field">
-        <label htmlFor="job-title">Job title</label>
-        <input
-          id="job-title"
-          required
-          value={form.title}
-          aria-invalid={Boolean(fieldErrors.title)}
-          onChange={update("title")}
-          placeholder="e.g. Site Mechanical Engineer"
-        />
-        {fieldErrors.title && <p className="field-error">{fieldErrors.title}</p>}
-      </div>
-      <div className="form-row">
-        <div className="field">
-          <label htmlFor="job-category">Category</label>
-          <select id="job-category" value={form.category} onChange={update("category")}>
-            {services.map((s) => (
-              <option key={s.title} value={s.title}>
-                {s.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="job-type">Type</label>
-          <select id="job-type" value={form.type} onChange={update("type")}>
-            {TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="field">
-        <label htmlFor="job-location">Location</label>
-        <input
-          id="job-location"
-          required
-          value={form.location}
-          aria-invalid={Boolean(fieldErrors.location)}
-          onChange={update("location")}
-          placeholder="e.g. Lagos, Nigeria"
-        />
-        {fieldErrors.location && <p className="field-error">{fieldErrors.location}</p>}
-      </div>
-      <div className="field">
-        <label htmlFor="job-description">Description</label>
-        <textarea
-          id="job-description"
-          required
-          rows={4}
-          value={form.description}
-          aria-invalid={Boolean(fieldErrors.description)}
-          onChange={update("description")}
-          placeholder="What the role involves, responsibilities, duration…"
-        />
-        {fieldErrors.description && <p className="field-error">{fieldErrors.description}</p>}
-      </div>
-      <div className="field">
-        <label htmlFor="job-requirements">Requirements (optional)</label>
-        <textarea
-          id="job-requirements"
-          rows={3}
-          value={form.requirements}
-          onChange={update("requirements")}
-          placeholder="Experience, certifications, tools…"
-        />
-      </div>
+      <JobFields form={form} fieldErrors={fieldErrors} update={update} />
       {error && (
         <div className="alert alert-error">
           <p>{error}</p>
