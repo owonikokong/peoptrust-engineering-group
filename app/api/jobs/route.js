@@ -19,17 +19,17 @@ export async function POST(request) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const user = await getSessionUser();
   if (!user) {
-    return NextResponse.json({ error: "Please log in first." }, { status: 401 });
+    return NextResponse.json({ error: "Please log in first.", code: "NOT_SIGNED_IN" }, { status: 401 });
   }
   if (user.role !== "employer") {
     return NextResponse.json(
-      { error: "Only employers can post jobs." },
+      { error: "Only employers can post jobs.", code: "ROLE_FORBIDDEN" },
       { status: 403 }
     );
   }
   if (!isVerified(user)) {
     return NextResponse.json(
-      { error: "Please verify your email address before posting a job. Enter the 6-digit code sent to your email on the verification page." },
+      { error: "Please verify your email address before posting a job. Enter the 6-digit code sent to your email on the verification page.", code: "EMAIL_UNVERIFIED" },
       { status: 403 }
     );
   }
@@ -38,31 +38,31 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body.", code: "INVALID_BODY" }, { status: 400 });
   }
 
   const { title, category, location, type, description, requirements } = body || {};
   if (!title || !String(title).trim()) {
-    return NextResponse.json({ error: "Please enter a job title." }, { status: 400 });
+    return NextResponse.json({ error: "Please enter a job title.", code: "VALIDATION" }, { status: 400 });
   }
   if (!CATEGORIES.includes(category)) {
     return NextResponse.json(
-      { error: "Please choose a valid job category." },
+      { error: "Please choose a valid job category.", code: "VALIDATION" },
       { status: 400 }
     );
   }
   if (!location || !String(location).trim()) {
-    return NextResponse.json({ error: "Please enter the job location." }, { status: 400 });
+    return NextResponse.json({ error: "Please enter the job location.", code: "VALIDATION" }, { status: 400 });
   }
   if (!TYPES.includes(type)) {
     return NextResponse.json(
-      { error: "Please choose a valid job type." },
+      { error: "Please choose a valid job type.", code: "VALIDATION" },
       { status: 400 }
     );
   }
   if (!description || !String(description).trim()) {
     return NextResponse.json(
-      { error: "Please describe the job." },
+      { error: "Please describe the job.", code: "VALIDATION" },
       { status: 400 }
     );
   }

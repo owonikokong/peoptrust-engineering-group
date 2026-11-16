@@ -89,7 +89,14 @@ export default function PostJobForm() {
             "Your session expired before this was posted. Your draft is saved in this tab — log in again, come back here, and press Post job."
           );
         }
-        if (res.status === 403 && /verify/i.test(data.error || "")) {
+        // Classify by the API's stable error code; fall back to the old
+        // message match only when a response carries no code (e.g. a
+        // stale deployment still serving pre-code responses).
+        if (
+          res.status === 403 &&
+          (data.code === "EMAIL_UNVERIFIED" ||
+            (!data.code && /verify/i.test(data.error || "")))
+        ) {
           setErrorKind("verify");
           throw new Error(data.error);
         }

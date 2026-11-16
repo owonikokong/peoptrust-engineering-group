@@ -4,7 +4,7 @@ import { findUserById, publicUser, updateUserFields } from "../../../lib/store";
 import { rateLimit, tooManyRequests } from "../../../lib/ratelimit";
 
 function bad(message) {
-  return NextResponse.json({ error: message }, { status: 400 });
+  return NextResponse.json({ error: message, code: "VALIDATION" }, { status: 400 });
 }
 
 function required(body, field) {
@@ -27,14 +27,14 @@ export async function PATCH(request) {
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
-    return NextResponse.json({ error: "Not signed in." }, { status: 401 });
+    return NextResponse.json({ error: "Not signed in.", code: "NOT_SIGNED_IN" }, { status: 401 });
   }
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body.", code: "INVALID_BODY" }, { status: 400 });
   }
 
   const name = required(body, "name");

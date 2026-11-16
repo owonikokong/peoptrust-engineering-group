@@ -7,18 +7,25 @@ import {
   publicUser,
   updateUserFields,
 } from "../../../../lib/store";
-import { codeMatches, MAX_CODE_ATTEMPTS } from "../../../../lib/verify";
+import { codeMatches } from "../../../../lib/verify";
+import { accountState } from "../../../../lib/states";
 
 export async function POST(request) {
   const rl = await rateLimit(request, "verify");
   if (!rl.ok) return tooManyRequests(rl.retryAfter);
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
-    return NextResponse.json({ error: "Please log in first." }, { status: 401 });
+    return NextResponse.json(
+      { error: "Please log in first.", code: "NOT_SIGNED_IN" },
+      { status: 401 }
+    );
   }
   const user = await findUserById(sessionUser.id);
   if (!user) {
-    return NextResponse.json({ error: "Account not found." }, { status: 404 });
+    return NextResponse.json(
+      { error: "Account not found.", code: "ACCOUNT_NOT_FOUND" },
+      { status: 404 }
+    );
   }
   if (isVerified(user)) {
     return NextResponse.json({ user: publicUser(user), verified: true });
@@ -28,31 +35,37 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body.", code: "INVALID_BODY" },
+      { status: 400 }
+    );
   }
   const code = String(body?.code || "").trim();
   if (!/^\d{6}$/.test(code)) {
     return NextResponse.json(
-      { error: "Please enter the 6-digit code from your email." },
+      { error: "Please enter the 6-digit code from your email.", code: "VALIDATION" },
       { status: 400 }
     );
   }
 
-  if (!user.verifyCodeHash || !user.verifyExpiresAt) {
+  // One derivation of the account's verification state (lib/states):
+  // same checks, same order, same messages as the inline version.
+  const state = accountState(user);
+  if (state === "no-code") {
     return NextResponse.json(
-      { error: "No active code for this account. Please request a new code." },
+      { error: "No active code for this account. Please request a new code.", code: "NO_ACTIVE_CODE" },
       { status: 400 }
     );
   }
-  if (new Date(user.verifyExpiresAt).getTime() < Date.now()) {
+  if (state === "expired") {
     return NextResponse.json(
-      { error: "This code has expired. Please request a new code." },
+      { error: "This code has expired. Please request a new code.", code: "CODE_EXPIRED" },
       { status: 400 }
     );
   }
-  if ((user.verifyAttempts || 0) >= MAX_CODE_ATTEMPTS) {
+  if (state === "exhausted") {
     return NextResponse.json(
-      { error: "Too many incorrect attempts. Please request a new code." },
+      { error: "Too many incorrect attempts. Please request a new code.", code: "CODE_EXHAUSTED" },
       { status: 429 }
     );
   }
@@ -62,7 +75,7 @@ export async function POST(request) {
       verifyAttempts: (user.verifyAttempts || 0) + 1,
     });
     return NextResponse.json(
-      { error: "That code is not correct. Please check your email and try again." },
+      { error: "That code is not correct. Please check your email and try again.", code: "CODE_MISMATCH" },
       { status: 400 }
     );
   }
