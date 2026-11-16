@@ -2,13 +2,10 @@ import { NextResponse } from "next/server";
 import { listJobs } from "../../../lib/store";
 import { getSessionUser } from "../../../lib/auth";
 import { rateLimit, tooManyRequests } from "../../../lib/ratelimit";
-import { services } from "../../../lib/data";
+import { validateJobFields } from "../../../lib/job-fields";
 import { canPost } from "../../../lib/states";
 import { postJob } from "../../../lib/transitions";
 import { ERROR_CODES } from "../../../lib/error-codes";
-
-const CATEGORIES = services.map((s) => s.title);
-const TYPES = ["Full-time", "Contract", "Part-time"];
 
 export async function GET() {
   const jobs = await listJobs();
@@ -46,43 +43,14 @@ export async function POST(request) {
     return NextResponse.json({ error: "Invalid request body.", code: ERROR_CODES.INVALID_BODY }, { status: 400 });
   }
 
-  const { title, category, location, type, description, requirements } = body || {};
-  if (!title || !String(title).trim()) {
-    return NextResponse.json({ error: "Please enter a job title.", code: ERROR_CODES.VALIDATION }, { status: 400 });
-  }
-  if (!CATEGORIES.includes(category)) {
-    return NextResponse.json(
-      { error: "Please choose a valid job category.", code: ERROR_CODES.VALIDATION },
-      { status: 400 }
-    );
-  }
-  if (!location || !String(location).trim()) {
-    return NextResponse.json({ error: "Please enter the job location.", code: ERROR_CODES.VALIDATION }, { status: 400 });
-  }
-  if (!TYPES.includes(type)) {
-    return NextResponse.json(
-      { error: "Please choose a valid job type.", code: ERROR_CODES.VALIDATION },
-      { status: 400 }
-    );
-  }
-  if (!description || !String(description).trim()) {
-    return NextResponse.json(
-      { error: "Please describe the job.", code: ERROR_CODES.VALIDATION },
-      { status: 400 }
-    );
+  // Field validation is shared with PATCH /api/jobs/[id] (lib/job-fields):
+  // same rules, same order, same messages.
+  const { error, fields } = validateJobFields(body);
+  if (error) {
+    return NextResponse.json({ error, code: ERROR_CODES.VALIDATION }, { status: 400 });
   }
 
-  const { job } = await postJob({
-    user,
-    fields: {
-      title: String(title).trim(),
-      category,
-      location: String(location).trim(),
-      type,
-      description: String(description).trim(),
-      requirements: requirements ? String(requirements).trim() : "",
-    },
-  });
+  const { job } = await postJob({ user, fields });
 
   return NextResponse.json(
     { job: { ...job, companyName: user.companyName } },

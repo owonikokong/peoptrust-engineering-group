@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "../../lib/auth";
+import { jobState } from "../../lib/states";
 import {
   listApplicationsForEmployer,
   listApplicationsForUser,
@@ -10,6 +11,7 @@ import {
 import AccountSidebar from "../components/AccountSidebar";
 import CountUp from "../components/CountUp";
 import DashSceneLazy from "../components/DashSceneLazy";
+import JobLifecycleActions from "../components/JobLifecycleActions";
 import LogoutButton from "../components/LogoutButton";
 import PostJobForm from "../components/PostJobForm";
 import VerifyBanner from "../components/VerifyBanner";
@@ -55,6 +57,16 @@ function statusClass(status) {
   if (s.includes("hire") || s.includes("offer") || s.includes("accept")) return "pill pill-solid";
   if (s.includes("reject") || s.includes("decline")) return "pill pill-red";
   return "pill pill-amber";
+}
+
+// Job lifecycle chip for the employer's posted-jobs list. The state
+// comes from the single derivation (jobState, lib/states); the chip
+// only names it.
+function JobStatusChip({ job }) {
+  const state = jobState(job);
+  if (state === "closed") return <span className="pill pill-amber">Closed</span>;
+  if (state === "deleted") return <span className="pill pill-red">Deleted</span>;
+  return <span className="pill pill-green">Open</span>;
 }
 
 function ProfileRow({ label, value }) {
@@ -341,12 +353,15 @@ async function EmployerDashboard({ user }) {
   const avgPerJob = jobs.length
     ? applications.length / jobs.length
     : 0;
+  // "Active" means open: closed and deleted jobs still list below with
+  // their applications, but they are not live posts.
+  const openJobs = jobs.filter((job) => jobState(job) === "open").length;
   const recent = applications.slice(0, 5);
 
   return (
     <>
       <div className="kpi-row">
-        <KpiCard label="Active job posts" value={jobs.length} tone="navy" />
+        <KpiCard label="Active job posts" value={openJobs} tone="navy" />
         <KpiCard label="Total applicants" value={applications.length} tone="green" />
         <KpiCard
           label="New applicants · 7 days"
@@ -422,11 +437,15 @@ async function EmployerDashboard({ user }) {
                           {formatDate(job.createdAt)}
                         </span>
                       </div>
-                      <span className="tag tag-count">
-                        {job.applicantCount} applicant
-                        {job.applicantCount === 1 ? "" : "s"}
-                      </span>
+                      <div className="dash-job-meta">
+                        <JobStatusChip job={job} />
+                        <span className="tag tag-count">
+                          {job.applicantCount} applicant
+                          {job.applicantCount === 1 ? "" : "s"}
+                        </span>
+                      </div>
                     </div>
+                    <JobLifecycleActions job={job} />
                     {(byJob.get(job.id) || []).length > 0 && (
                       <ul className="applicant-list">
                         {byJob.get(job.id).map((application) => (
