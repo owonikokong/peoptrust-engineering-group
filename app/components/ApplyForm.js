@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ERROR_CODES } from "../../lib/error-codes";
 
 export default function ApplyForm({ jobId }) {
   const router = useRouter();
@@ -50,12 +51,13 @@ export default function ApplyForm({ jobId }) {
             "Your session expired before this was sent. Your cover note is saved in this tab — log in again, come back here, and press Apply."
           );
         }
-        // Classify by the API's stable error code; fall back to the old
-        // message match only when a response carries no code (e.g. a
-        // stale deployment still serving pre-code responses).
+        // Classify by the API's stable error code (shared vocabulary in
+        // lib/error-codes); fall back to the old message match only when
+        // a response carries no code (e.g. a stale deployment still
+        // serving pre-code responses).
         if (
           res.status === 403 &&
-          (data.code === "EMAIL_UNVERIFIED" ||
+          (data.code === ERROR_CODES.EMAIL_UNVERIFIED ||
             (!data.code && /verify/i.test(data.error || "")))
         ) {
           setErrorKind("verify");

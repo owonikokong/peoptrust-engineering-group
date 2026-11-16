@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSessionUser, SESSION_COOKIE } from "../../lib/auth";
+import { getSession } from "../../lib/auth";
 import {
   listApplicationsForEmployer,
   listApplicationsForUser,
@@ -107,14 +106,14 @@ function ProgressRing({ percent }) {
 }
 
 export default async function DashboardPage() {
-  const user = await getSessionUser();
+  const { user, reason } = await getSession();
   if (!user) {
-    // State 8 — a session cookie that no longer validates means the
-    // session expired; say so on the login page and offer the way back.
-    // No cookie at all is just a signed-out visit.
-    const store = await cookies();
-    const hadSession = Boolean(store.get(SESSION_COOKIE)?.value);
-    redirect(hadSession ? "/login?expired=1&next=/dashboard" : "/login");
+    // The session reason (lib/auth) names why there is no user: no
+    // cookie at all is a signed-out visit; any cookie that stopped
+    // validating (expired, tampered, user deleted) means the session
+    // ended, so the login page says so and offers the way back. Same
+    // redirects as the old raw-cookie check, derived from the reason.
+    redirect(reason === "no-token" ? "/login" : "/login?expired=1&next=/dashboard");
   }
 
   const isEmployer = user.role === "employer";

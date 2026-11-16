@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getSessionUser } from "../../../lib/auth";
 import { findUserById, isVerified } from "../../../lib/store";
+import { canViewDossier } from "../../../lib/states";
 
 export const dynamic = "force-dynamic";
 
@@ -34,10 +35,10 @@ export default async function ProfessionalPage({ params }) {
   const verified = isVerified(pro);
   const isEmployer = viewer.role === "employer";
   const isSelf = viewer.id === pro.id;
-  // Rule: the full experience / CV / certifications dossier is visible
-  // only to employers (and to the professional themselves). Other
-  // professionals see the public summary sections only.
-  const canViewDossier = isEmployer || isSelf;
+  // Rule (lib/states guard): the full experience / CV / certifications
+  // dossier is visible only to employers (and to the professional
+  // themselves). Other professionals see the public summary only.
+  const showDossier = canViewDossier(viewer, pro);
   const certLines = String(pro.certifications || "")
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -128,7 +129,7 @@ export default async function ProfessionalPage({ params }) {
           ) : null}
         </div>
 
-        {canViewDossier ? (
+        {showDossier ? (
           <div className="card pro-details pro-dossier">
             <div className="profile-summary">
               <span>Experience</span>
