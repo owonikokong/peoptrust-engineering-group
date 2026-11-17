@@ -5,6 +5,7 @@ export const metadata = {
   title: "Services — PeopTrust Engineering Group",
   description:
     "Six engineering service areas for Nigerian projects: civil, mechanical and electrical engineering, project management, environmental engineering and equipment supply from PeopTrust Engineering Group.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {

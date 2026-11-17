@@ -20,6 +20,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Dashboard — PeopTrust Engineering Group",
+  robots: { index: false, follow: false },
 };
 
 function formatDate(iso) {

@@ -34,9 +34,24 @@ const plexMono = localFont({
 export const dynamic = "force-dynamic";
 
 export const metadata = {
+  metadataBase: new URL("https://peoptrust.vercel.app"),
   title: "PeopTrust Engineering Group",
   description:
     "Engineering services and skilled-labour marketplace in Nigeria. PeopTrust connects employers with capable engineering professionals while delivering reliable technical services, equipment and project support.",
+  openGraph: {
+    title: "PeopTrust Engineering Group",
+    description:
+      "Engineering services and skilled-labour marketplace in Nigeria. PeopTrust connects employers with capable engineering professionals while delivering reliable technical services, equipment and project support.",
+    url: "https://peoptrust.vercel.app",
+    siteName: "PeopTrust Engineering Group",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "PeopTrust Engineering Group",
+    description:
+      "Engineering services and skilled-labour marketplace in Nigeria. PeopTrust connects employers with capable engineering professionals while delivering reliable technical services, equipment and project support.",
+  },
 };
 
 const nav = [

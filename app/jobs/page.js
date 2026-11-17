@@ -6,6 +6,9 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Jobs — PeopTrust Engineering Group",
+  description:
+    "Browse open engineering jobs in Nigeria, posted by employers hiring through PeopTrust Engineering Group.",
+  alternates: { canonical: "/jobs" },
 };
 
 export default async function JobsPage() {

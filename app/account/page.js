@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Profile \u2014 PeopTrust Engineering Group",
+  robots: { index: false, follow: false },
 };
 
 export default async function AccountPage() {
