@@ -4,6 +4,7 @@ export const metadata = {
   title: "About — PeopTrust Engineering Group",
   description:
     "PeopTrust Engineering Group is a Nigerian engineering services and talent marketplace, built for Nigerian employers and professionals first.",
+  alternates: { canonical: "/about" },
 };
 
 const values = [

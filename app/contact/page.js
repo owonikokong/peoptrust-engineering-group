@@ -4,6 +4,7 @@ export const metadata = {
   title: "Contact — PeopTrust Engineering Group",
   description:
     "Share your project, talent or equipment requirements with PeopTrust Engineering Group in Lagos, Nigeria.",
+  alternates: { canonical: "/contact" },
 };
 
 const contacts = [

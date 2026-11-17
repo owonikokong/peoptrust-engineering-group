@@ -26,6 +26,8 @@ const securityHeaders = [
 const noStore = [{ key: "Cache-Control", value: "private, no-store" }];
 
 const nextConfig = {
+  // Do not advertise the framework version in response headers.
+  poweredByHeader: false,
   // The vendored stageshow kit (app/components/stageshow) is typed against
   // React 18; runtime is verified, so type errors in it must not block builds.
   typescript: { ignoreBuildErrors: true },

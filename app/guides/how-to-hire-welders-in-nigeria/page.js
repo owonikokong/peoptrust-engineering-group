@@ -1,7 +1,9 @@
+import Link from "next/link";
 export const metadata = {
   title: "How to Hire Welders for an Industrial Project in Nigeria",
   description:
     "Match the hiring route to the scope, then check evidence before price: the welding standard, the procedure, inspection records, and references.",
+  alternates: { canonical: "/guides/how-to-hire-welders-in-nigeria" },
 };
 
 export default function WelderHiringGuidePage() {
@@ -39,14 +41,14 @@ export default function WelderHiringGuidePage() {
               project.
             </p>
             <p>
-              This guide sits on the PeopTrust blog. PeopTrust is a Nigerian
-              marketplace that connects employers with verified engineering
-              professionals, and this guide names where rivals genuinely win.
-              The rules below stand on their own: use them with any welder,
-              contractor, or supplier. Every pointer starts with Nigeria —
-              Nigerian industries, Nigerian regulators, and the standards
-              Nigerian industrial work runs on — because PeopTrust built its
-              services for Nigerians first.
+              This guide sits in the PeopTrust guides section. PeopTrust is a
+              Nigerian marketplace that connects employers with verified
+              engineering professionals, and this guide names where rivals
+              genuinely win. The rules below stand on their own: use them with
+              any welder, contractor, or supplier. Every pointer starts with
+              Nigeria — Nigerian industries, Nigerian regulators, and the
+              standards Nigerian industrial work runs on — because PeopTrust
+              built its services for Nigerians first.
             </p>
 
             <h2>Should you hire individual welders or a welding contractor?</h2>
@@ -72,9 +74,9 @@ export default function WelderHiringGuidePage() {
               profiles carry the facts for a first screen: key skills, years of
               experience, availability, certifications, and a CV link. The work
               itself usually sits inside{" "}
-              <a href="https://peoptrust.vercel.app/services">
+              <Link href="/services">
                 mechanical engineering and fabrication services
-              </a>
+              </Link>
               : installation, maintenance, fabrication, and industrial
               mechanical systems.
             </p>
@@ -343,15 +345,9 @@ export default function WelderHiringGuidePage() {
               the profile cannot show: the WPS, the welder qualifications, the
               references, and a past inspection report. The profile earns the
               conversation. The evidence earns the award. Employers start by{" "}
-              <a href="https://peoptrust.vercel.app/register">
-                joining PeopTrust as an employer
-              </a>
-              , and the{" "}
-              <a href="https://peoptrust.vercel.app/services">
-                six service areas
-              </a>{" "}
-              show where welding and fabrication sit inside the wider
-              engineering offer.
+              <Link href="/register">joining PeopTrust as an employer</Link>,
+              and the <Link href="/services">six service areas</Link> show where
+              welding and fabrication sit inside the wider engineering offer.
             </p>
 
             <h2>What is included in your quotation?</h2>
@@ -385,11 +381,9 @@ export default function WelderHiringGuidePage() {
             <p>
               Welding work is quoted per project and scope. PeopTrust publishes
               no prices, and cost is discussed per project:{" "}
-              <a href="https://peoptrust.vercel.app/contact">
-                discuss a project
-              </a>{" "}
-              with the requirements in hand, and judge the quote against the
-              eight lines above.
+              <Link href="/contact">discuss a project</Link> with the
+              requirements in hand, and judge the quote against the eight lines
+              above.
             </p>
 
             <h3>Red flags in a quotation</h3>
@@ -422,12 +416,10 @@ export default function WelderHiringGuidePage() {
             </p>
             <p>
               <strong>The call.</strong>{" "}
-              <a href="https://peoptrust.vercel.app/register">
-                Create an employer account
-              </a>
-              , confirm your email with the 6-digit code, then post the role.
-              Confirmation comes before posting, so start the account early when
-              the timeline is tight.
+              <Link href="/register">Create an employer account</Link>, confirm
+              your email with the 6-digit code, then post the role. Confirmation
+              comes before posting, so start the account early when the timeline
+              is tight.
             </p>
             <p>
               <strong>What comes back.</strong> Applications from verified
@@ -437,9 +429,9 @@ export default function WelderHiringGuidePage() {
             <p>
               <strong>What it costs.</strong> PeopTrust publishes no prices.
               Cost is discussed per project. The{" "}
-              <a href="https://peoptrust.vercel.app/services">
+              <Link href="/services">
                 mechanical engineering and fabrication
-              </a>{" "}
+              </Link>{" "}
               services page shows the wider capability behind the trade.
             </p>
 
@@ -454,21 +446,15 @@ export default function WelderHiringGuidePage() {
               PeopTrust checks capability so employers can hire with confidence.
               That check is the starting point, not the whole vetting process:
               the evidence steps in this guide still belong to you. Read{" "}
-              <a href="https://peoptrust.vercel.app/about">
-                what PeopTrust values
-              </a>
-              : people first, verified skills, safety always, dependable
-              delivery.
+              <Link href="/about">what PeopTrust values</Link>: people first,
+              verified skills, safety always, dependable delivery.
             </p>
 
             <h3>Step 3: award the job and run it to the plan</h3>
             <p>
               Agree the inspection plan before work starts. Clear requirements,
               safe practice, and dependable delivery are the working rules on
-              both sides. The{" "}
-              <a href="https://peoptrust.vercel.app/projects">
-                recent project work
-              </a>{" "}
+              both sides. The <Link href="/projects">recent project work</Link>{" "}
               page shows the shape of assignments the network supports, from
               commercial building in Lagos to industrial maintenance in Ogun.
             </p>
@@ -505,14 +491,10 @@ export default function WelderHiringGuidePage() {
             <p>
               Compare verified professionals directly, run your own vetting, and
               keep control of scope and cost.{" "}
-              <a href="https://peoptrust.vercel.app/">The marketplace</a> is
-              Nigeria-first: Nigerian employers, Nigerian professionals, and
-              Nigerian industries. Read{" "}
-              <a href="https://peoptrust.vercel.app/about">
-                how PeopTrust works
-              </a>{" "}
-              before you post, and write the evidence requirement into the job
-              from the start.
+              <Link href="/">The marketplace</Link> is Nigeria-first: Nigerian
+              employers, Nigerian professionals, and Nigerian industries. Read{" "}
+              <Link href="/about">how PeopTrust works</Link> before you post,
+              and write the evidence requirement into the job from the start.
             </p>
 
             <h2>Frequently asked questions</h2>
@@ -572,10 +554,8 @@ export default function WelderHiringGuidePage() {
               decide before the bar.
             </p>
             <p>
-              <a href="https://peoptrust.vercel.app/register">
-                Post the job on PeopTrust
-              </a>{" "}
-              at peoptrust.vercel.app and compare verified welders against that
+              <Link href="/register">Post the job on PeopTrust</Link> at
+              peoptrust.vercel.app and compare verified welders against that
               bar.
             </p>
             <p className="guide-updated">

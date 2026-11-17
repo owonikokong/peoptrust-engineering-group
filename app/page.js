@@ -4,6 +4,10 @@ import HeroSceneLazy from "./components/HeroSceneLazy";
 import { services, projects } from "../lib/data";
 import { TRADES } from "../lib/options";
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 const bandStats = [
   { value: "100+", label: "Professional & project connections" },
   { value: "6", label: "Core service areas" },

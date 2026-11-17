@@ -7,6 +7,22 @@ import ApplyForm from "../../components/ApplyForm";
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const job = await getJob(id);
+  if (!job) {
+    return { title: "Job — PeopTrust Engineering Group" };
+  }
+  const description = job.description
+    ? job.description.replace(/\s+/g, " ").slice(0, 160)
+    : `${job.title} in ${job.location}.`;
+  return {
+    title: `${job.title} — PeopTrust Engineering Group`,
+    description,
+    alternates: { canonical: `/jobs/${job.id}` },
+  };
+}
+
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-GB", {
     day: "numeric",

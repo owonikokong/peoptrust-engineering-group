@@ -5,6 +5,7 @@ export const metadata = {
   title: "Projects — PeopTrust Engineering Group",
   description:
     "Selected engineering and technical assignments supported by the PeopTrust network in Lagos, Abuja, Port Harcourt and Ogun, Nigeria.",
+  alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {
